@@ -1,0 +1,1 @@
+schtasks /create /sc MINUTE /mo 5 /tn "Auto" /tr "C:\Users\Micha\OneDrive\Documents\GitHub\HU-CSC-Work\Auto.bat"
