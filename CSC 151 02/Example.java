@@ -6,7 +6,7 @@ Scanner keyboard = new Scanner(System.in);
   int myInterger = 123456789;
    byte myByte = (byte)myInterger;
    
-   myInterger = 45;
+   myInterger = 50;
    System.out.println(myInterger);
    
    String uniName = ("Hampton University");
