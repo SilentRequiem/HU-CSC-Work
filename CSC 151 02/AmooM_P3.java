@@ -1,11 +1,33 @@
-import java.util.Random;
+//Name: Michael Amoo
+//Date: 11/17/23
+//Phone: (757)-776-2017
+//Section: 151 02-F23
+//Instructor: Dr. B
+//Description: Wordle Game
 
+import java.util.Random;
+import java.util.Scanner;
 public class AmooM_P3 {
    public static void main(String[] args) {
       // The code for the word of the day is already in place.
       final String WORD = getWordOfTheDay();
       
       /* Replace this comment with your code. */
+      
+      Type here
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
    }
    
    private static String getWordOfTheDay() {
