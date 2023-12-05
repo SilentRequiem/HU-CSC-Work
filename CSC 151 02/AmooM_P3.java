@@ -11,20 +11,46 @@ public class AmooM_P3 {
    public static void main(String[] args) {
       // The code for the word of the day is already in place.
       final String WORD = getWordOfTheDay();
-      
+      Scanner keyboard = new Scanner(System.in);
       /* Replace this comment with your code. */
       
-      Type here
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
+      for(int i = 0; i < 6; i++){
+         System.out.println("Enter your guess");
+         String guess = keyboard.nextLine().toUpperCase();
+
+         while(guess.length() != 5){
+            System.out.println("Invalid guess. Please enter a 5 letter word: ");
+            guess = keyboard.nextLine().toUpperCase();
+         }
+
+         if(guess.equals(WORD)){
+            System.out.println("You guessed correctly!");
+            return;
+         }
+
+         System.out.println("this is incorrect!");
+
+         for(int k = 0; k < guess.length(); k++){
+            char guessLetter = guess.charAt(k);
+            char wordLetter = WORD.charAt(k);
+            String feedback = "-";
+
+            for(int ii = 0; ii < WORD.length(); ii++){
+               if(guessLetter == wordLetter){
+                  if(k == ii){
+                     feedback = Character.toString(guessLetter).toUpperCase();
+                  }
+                  else{
+                     feedback = Character.toString(guessLetter).toLowerCase();
+                  }
+               }
+            }
+            System.out.println(feedback);
+         }
+         System.out.println();
+      }
+      System.out.println("You lost!, the word was " + WORD);
       
       
       
