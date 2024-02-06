@@ -72,7 +72,7 @@ switch (myChar) {
                 System.out.println("Your last name doesn't match any in the animal list");
             }
 
-            
+           
 //Part D
 int limit;
 
@@ -92,7 +92,7 @@ limit = keyboard.nextInt();
  for (int number = 1; number <= limit; number++) {  
    int squared = number * number;
    int cubed = number * number * number;
- 
+ return; 
  System.out.printf("%d\t\t\t %d\t\t\t   %d%n", number, squared, cubed);
 }
 
