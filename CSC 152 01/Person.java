@@ -9,25 +9,27 @@ public class Person { //Object Name
    
    public Person() //Empty Constructor: Anything that doesn't have something in the "()", when creating the object it set it to those values
    {
-   name = "Mark";
-   age = 19;
+      name = "Mark";
+      age = 19;
    }
    //Methods - Intructions for the object 
    public String getName()
    {
-   System.out.println(name);
-   return name;
+      System.out.println(name);
+      return name;
    }
    
    public int getAge()
-   {return age;}
+   {
+      return age;}
    
    public double getMoney()
-   {return money;}
+   {
+      return money;}
    
    public void setMoney()
    { 
-   money = 17;
+      money = 17;
    }
    
-  }
+}
