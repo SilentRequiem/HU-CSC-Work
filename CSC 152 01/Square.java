@@ -73,3 +73,4 @@ public class Square {
          + "\n\tPerimeter: " + getPerimeter();
    }
 }
+}
