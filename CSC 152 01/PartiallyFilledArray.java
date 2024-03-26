@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class PartiallyFilledArray {
    public static void main(String[] args) {
       Scanner keyboard = new Scanner(System.in);
-      Integer[] myScores = new Integer[20];
+      int[] myScores = new int[20];
       int count = 0;
    
       //Array
