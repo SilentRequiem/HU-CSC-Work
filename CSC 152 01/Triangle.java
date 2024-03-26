@@ -8,9 +8,9 @@ File: Class
 public class Triangle {
 
 //attributes
-private int base;
-private int height;
-private String color;
+protected int base;
+protected int height;
+protected String color;
 
 //no arg construtor (intilizes a value for the attriable)
 public Triangle()
