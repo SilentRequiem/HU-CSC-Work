@@ -6,6 +6,7 @@ Program: Arrays in-class exercises
  “I, Michael Amoo, pledge to follow the Honor Code in taking my Lab 13.”
 */
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class AmooM_Lab13
 {
