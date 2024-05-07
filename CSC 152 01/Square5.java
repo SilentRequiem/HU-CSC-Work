@@ -1,21 +1,25 @@
 public class Square5 {
    private int side;
    
-   public int Square(){
-      side = 10; //default
+   public int Square()
+   {
+      side = 10;
       return side;
    }   
    
-   public int Square(int s) {
+   public int Square(int s) 
+   {
       side = s;
       return side;
    }
    
-   public int getSide() {
+   public int getSide()
+   {
       return side;
    }
    
-   public void setSide(int newS) {
+   public void setSide(int newS)
+   {
       side = newS;
    }
    
