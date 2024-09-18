@@ -1,0 +1,4 @@
+Hello, my name is Michael Amoo. I am 19 years old and my major is Cyber.
+My full name contains 12 characters.
+My full name in uppercase is MICHAEL AMOO.
+The last character of my last name in uppercase is O.
