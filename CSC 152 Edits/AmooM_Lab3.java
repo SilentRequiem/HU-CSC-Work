@@ -52,7 +52,8 @@ public class AmooM_Lab3
       
     }
    
-   System.out.print
+   System.out.println("\nThe total area of 3 squares is " + (square1.getArea() + square2.getArea() + square3.getArea()) + " square inches."
+   System.out.println(
    
    
    }
