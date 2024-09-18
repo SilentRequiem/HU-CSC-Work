@@ -36,7 +36,23 @@ public class AmooM_Lab3
    //Print out (toString)
    System.out.println(square2.toString());
   
+   Square square3 = new Square();
+   square3.setSide(square1.getSide() + square2.getSide() );
+   square3.changeColor(square1.getColor() );
    
+   //Print out (toString)
+   System.out.println(square3.toString());
+   
+   if (square3.getSide() % 2 == 0) //Even
+    {
+      square3.setSide(square2.getColor());
+      
+      //Print out (toString)
+       System.out.println(square3.toString());
+      
+    }
+   
+   System.out.print
    
    
    }
