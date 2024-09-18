@@ -34,6 +34,7 @@ public class AmooM_Lab3
    square2.changeColor(keyboard.nextLine());  
   
    //Print out (toString)
+   System.out.println("\nSquare 2: toString");
    System.out.println(square2.toString());
   
    Square square3 = new Square();
@@ -41,6 +42,7 @@ public class AmooM_Lab3
    square3.changeColor(square1.getColor() );
    
    //Print out (toString)
+   System.out.println("\nSquare 3: toString");
    System.out.println(square3.toString());
    
    if (square3.getSide() % 2 == 0) //Even
@@ -48,6 +50,7 @@ public class AmooM_Lab3
       square3.changeColor(square2.getColor());
       
       //Print out (toString)
+      System.out.println("Square 3: toString (Even change)");
        System.out.println(square3.toString());
       
     }
