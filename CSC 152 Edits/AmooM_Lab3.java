@@ -45,7 +45,7 @@ public class AmooM_Lab3
    
    if (square3.getSide() % 2 == 0) //Even
     {
-      square3.setSide(square2.getColor());
+      square3.changeColor(square2.getColor());
       
       //Print out (toString)
        System.out.println(square3.toString());
