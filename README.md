@@ -1,9 +1,13 @@
 # HU-CSC-Work
 
-CSC 100 33 June 16 2023 - July 21 2023
+CSC 100 33 Problem Solving in Comp Scienc
 
-CSC 151 02 August 27 2023 - December 1 2023
+CSC 151 02 Computer Progrmng I
 
-CSC 120 34 January 11 2024 - May 9 2024 
+CSC 120 34 Intro to Computers
 
-CSC 152 01 August 27 2024 - December 9 2024 
+CSC 152 02 Computer Progrmng II
+
+CSC 291 02 Swift
+
+CYS 323 01 Ethics, Law & Policy in Cybrsp
