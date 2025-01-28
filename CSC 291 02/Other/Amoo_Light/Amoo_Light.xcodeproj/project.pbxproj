@@ -7,26 +7,26 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		0A12F8342D4731E200105145 /* Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Light.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A12F8342D4731E200105145 /* Amoo_Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amoo_Light.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0A12F8462D4731E500105145 /* Exceptions for "Light" folder in "Light" target */ = {
+		0A12F8462D4731E500105145 /* Exceptions for "Amoo_Light" folder in "Amoo_Light" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 0A12F8332D4731E200105145 /* Light */;
+			target = 0A12F8332D4731E200105145 /* Amoo_Light */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0A12F8362D4731E200105145 /* Light */ = {
+		0A12F8362D4731E200105145 /* Amoo_Light */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				0A12F8462D4731E500105145 /* Exceptions for "Light" folder in "Light" target */,
+				0A12F8462D4731E500105145 /* Exceptions for "Amoo_Light" folder in "Amoo_Light" target */,
 			);
-			path = Light;
+			path = Amoo_Light;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -45,7 +45,7 @@
 		0A12F82B2D4731E200105145 = {
 			isa = PBXGroup;
 			children = (
-				0A12F8362D4731E200105145 /* Light */,
+				0A12F8362D4731E200105145 /* Amoo_Light */,
 				0A12F8352D4731E200105145 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,7 +53,7 @@
 		0A12F8352D4731E200105145 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0A12F8342D4731E200105145 /* Light.app */,
+				0A12F8342D4731E200105145 /* Amoo_Light.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,9 +61,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0A12F8332D4731E200105145 /* Light */ = {
+		0A12F8332D4731E200105145 /* Amoo_Light */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0A12F8472D4731E500105145 /* Build configuration list for PBXNativeTarget "Light" */;
+			buildConfigurationList = 0A12F8472D4731E500105145 /* Build configuration list for PBXNativeTarget "Amoo_Light" */;
 			buildPhases = (
 				0A12F8302D4731E200105145 /* Sources */,
 				0A12F8312D4731E200105145 /* Frameworks */,
@@ -74,13 +74,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0A12F8362D4731E200105145 /* Light */,
+				0A12F8362D4731E200105145 /* Amoo_Light */,
 			);
-			name = Light;
+			name = Amoo_Light;
 			packageProductDependencies = (
 			);
 			productName = Light;
-			productReference = 0A12F8342D4731E200105145 /* Light.app */;
+			productReference = 0A12F8342D4731E200105145 /* Amoo_Light.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +98,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0A12F82F2D4731E200105145 /* Build configuration list for PBXProject "Light" */;
+			buildConfigurationList = 0A12F82F2D4731E200105145 /* Build configuration list for PBXProject "Amoo_Light" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -112,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0A12F8332D4731E200105145 /* Light */,
+				0A12F8332D4731E200105145 /* Amoo_Light */,
 			);
 		};
 /* End PBXProject section */
@@ -314,7 +314,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0A12F82F2D4731E200105145 /* Build configuration list for PBXProject "Light" */ = {
+		0A12F82F2D4731E200105145 /* Build configuration list for PBXProject "Amoo_Light" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A12F84A2D4731E500105145 /* Debug */,
@@ -323,7 +323,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0A12F8472D4731E500105145 /* Build configuration list for PBXNativeTarget "Light" */ = {
+		0A12F8472D4731E500105145 /* Build configuration list for PBXNativeTarget "Amoo_Light" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A12F8482D4731E500105145 /* Debug */,
