@@ -1,6 +1,6 @@
 # HU-CSC-Work
 
-CSC 100 33 Problem Solving in Comp Scienc
+CSC 100 33 Problem Solving in Comp Science
 
 CSC 151 02 Computer Progrmng I
 
