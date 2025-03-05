@@ -25,7 +25,7 @@ func pacing(currentDistance: Double, totalDistance: Double, currentTime: Double,
     }
 }
 
-let motivation = pacing(currentDistance: 50, totalDistance: 100, currentTime: 4.8, goalTime: 10)
+let motivation = pacing(currentDistance: 20, totalDistance: 300, currentTime: 8.2, goalTime: 90)
 print(motivation)
 
 /*:

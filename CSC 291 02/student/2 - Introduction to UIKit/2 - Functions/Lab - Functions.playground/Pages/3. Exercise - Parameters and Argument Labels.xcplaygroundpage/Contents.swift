@@ -37,7 +37,7 @@ func multiply(_ a: Double, times b: Double) { //times can be anytinhg, it's main
     
 }
 
-multiply(2.3, times: 5.7)
+multiply(2.9, times: 5.1)
 /*:
 [Previous](@previous)  |  page 3 of 6  |  [Next: App Exercise - Progress Updates](@next)
  */

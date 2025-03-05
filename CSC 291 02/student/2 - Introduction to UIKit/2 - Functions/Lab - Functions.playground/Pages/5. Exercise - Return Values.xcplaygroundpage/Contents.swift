@@ -13,7 +13,7 @@ func almostMultiplication(firstNumber: Int, secondNumber: Int) -> Int {
     return firstNumber * secondNumber + 2
 }
 
-let almostMultiplied = almostMultiplication(firstNumber: 8, secondNumber: 2)
+let almostMultiplied = almostMultiplication(firstNumber: 11, secondNumber: 7)
 print("\(almostMultiplied) is your answer using \"almostMultiplied\" and a return statment ")
 /*:
 [Previous](@previous)  |  page 5 of 6  |  [Next: App Exercise - Separating Functions](@next)

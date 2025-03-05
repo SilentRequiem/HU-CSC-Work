@@ -4,6 +4,22 @@ import java.util.Scanner;
 public class Info {
     public static void main(String[] args) {
 
+    int bruh = 1;
+    
+    switch bruh {
+    
+    case 0: 2;
+    
+    
+   default: 5;
+    }
+    
+    System.out.println(bruh);
+    
+    
+    
+    
+    
         Scanner keyboard = new Scanner(System.in);
         // Create an object of Person
         Person person = new Person("Michael", 25);
@@ -26,5 +42,8 @@ public class Info {
         System.out.println(car.getMake());
 
     keyboard.close();
+    
+    
+    
     }
 }
