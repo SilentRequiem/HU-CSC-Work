@@ -130,7 +130,8 @@ public class AmooM_Lab6 {
             if (num == -1) 
             {break;}
             
-            myPoints_MA[count++] = num;
+            myPoints_MA[count] = num;
+            count++;
         }
         
         //Printout

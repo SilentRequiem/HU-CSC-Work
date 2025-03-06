@@ -70,7 +70,7 @@ public class Practice {
 
          //search the array for the value 3
 
-         results = sequentialSearch(numbers, 3);
+         
 
          if (results == -1) {
              System.out.println("The value 3 was not found in the array");
