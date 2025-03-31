@@ -101,9 +101,7 @@ print(sameShip.position)
 sameShip.moveLeft()
 print(falcon.position)
 print(sameShip.position)
-// `sameShip` and `falcon` are referencing the same instance in memory, so anything done on one will be reflected on the other because they are actually the same object.
-// In contrast, if we were dealing with structs, the instance of `falcon` would have been copied on assignment and therefore a change on one would not affect the other because
-// they would be two separate objects.
+//`sameShip` and `falcon` reference the same object, so changes to one affect the other. With structs, `falcon` would be copied, making them independent.
 /*:
  _Copyright © 2021 Apple Inc._
 

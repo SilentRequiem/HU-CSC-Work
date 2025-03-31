@@ -52,8 +52,7 @@ print(destroyer.position)
 
 
 //print(falcon.weapon)
-// `falcon` does not have a property `weapon` because `weapon` is a property of `Fighter`, not `Spaceship`. While `Fighter` has 
-// everything that `Spaceship` has, the reverse is not true.
+// `falcon` does not have a property `weapon` because `weapon` is a property of `Fighter`
 //:  Add a method to `fighter` called `fire()`. This should check to see if `remainingFirePower` is greater than 0, and if so, should decrement `remainingFirePower` by one. If `remainingFirePower` is not greater than 0, print "You have no more fire power." Call `fire()` on `destroyer` a few times and print `remainingFirePower` after each method call.
 
 

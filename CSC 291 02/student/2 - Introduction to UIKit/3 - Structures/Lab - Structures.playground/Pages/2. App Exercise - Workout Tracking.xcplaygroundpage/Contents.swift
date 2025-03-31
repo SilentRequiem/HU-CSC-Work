@@ -20,7 +20,10 @@ print(firstRun.time)
 print(firstRun.elevation)
 
 //:  Now imagine that throughout the course of the run, you go a distance of 2,396 meters in 15.3 minutes, and gain 94 meters of elevation. Update the values of `firstRun`'s properties accordingly. Print a statement about your run using the values of each property.
-
+firstRun.distance = 2396
+firstRun.time = 15.3
+firstRun.elevation = 94
+print("\(firstRun.distance) meters \n\(firstRun.time) minutes \n\(firstRun.elevation) meters in elevation.")
 
 /*:
 [Previous](@previous)  |  page 2 of 10  |  [Next: Exercise - Memberwise and Custom Initializers](@next)
