@@ -11,3 +11,7 @@ CSC 152 02 Computer Progrmng II
 CSC 291 02 Swift
 
 CYS 323 01 Ethics, Law & Policy in Cybrsp
+
+CSC 215 01 Discrete Structures
+
+CSC 251 02 Data Structures I
