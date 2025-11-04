@@ -1,5 +1,4 @@
 //Setup
-
 public class myManualStack {
     public int size;
     public int top;
@@ -39,6 +38,8 @@ public static void main(String[] args) {
     myManualStack stk = new myManualStack(10);
     stk.fillUp();
     
+
+
 //TODO Phase
 
     //Have an array that can hold your names from the Stack
@@ -55,9 +56,6 @@ public static void main(String[] args) {
         if (stk.top != -1) {
         System.out.println("____________________________________________________________");
         }
-
-        
-
 
     }
     //Loop through the print out the array

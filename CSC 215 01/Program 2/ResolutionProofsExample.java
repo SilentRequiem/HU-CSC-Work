@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 public class ResolutionProofsExample {
     public static void main(String[] args) {
 
@@ -10,23 +8,19 @@ p, q, and r as boolean variables, then for each row assign each variable true or
 needed. For example:
  */
 
-boolean p = true; 
-boolean q = true; 
-boolean r = true;
+//Example 
+boolean Example_P = true; 
+boolean Example_Q = true; 
+boolean Example_R = true;
 
-System.out.println(p + "\t\t" + q + "\t\t" + r + "\t\t" +
-(p | q) + "\t\t" + (!p | r) + "\t\t" + (q | r));
-// Table Row for true true false
-p = true; q = true; r = false;
-System.out.println(p + "\t\t" + q + "\t\t" + r + "\t\t" +
-(p | q) + "\t\t" + (!p | r) + "\t\t" + (q | r));
+System.out.println("Table Row for true true true");
+System.out.println(Example_P + "\t\t" + Example_Q + "\t\t" + Example_R + "\t\t" +
+(Example_P | Example_Q) + "\t\t" + (!Example_P | Example_R) + "\t\t" + (Example_Q | Example_R));
 
 
-
-
-
-
-
-
+System.out.println("Table Row for true true false");
+Example_P = true; Example_Q = true; Example_R = false;
+System.out.println(Example_P + "\t\t" + Example_Q + "\t\t" + Example_R + "\t\t" +
+(Example_P | Example_Q) + "\t\t" + (!Example_P | Example_R) + "\t\t" + (Example_Q | Example_R));
     }
 }
