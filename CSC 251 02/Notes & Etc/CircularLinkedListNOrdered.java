@@ -43,7 +43,7 @@ Remove() - Removes a node from the list based on the data value.
 Search(int x) - Searches for a node with a specific data value and returns true if found, false otherwise.
 */
 
-//Examples of SLL methods in code:
+//Example of SSL methods in code:
 //Rules of a SLL: FIFO, You can Access only the first element, and no info on length of the list.
 
 // Head --> Blue --> Red --> Green --> Yellow --> Null
