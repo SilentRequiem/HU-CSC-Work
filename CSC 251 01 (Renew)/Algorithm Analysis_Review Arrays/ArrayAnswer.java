@@ -101,4 +101,17 @@ public class ArrayAnswer {
 }
 
 
+
+/*
+
+Properties of an ArrayAnswer
+    - Fixed Size 
+    - hold any data type but only 1 type at a time
+    - arrayName + index
+    - sequenctial collection
+    
+
+
+
+*/
 //You must be able to do this with a variable size and no APIs.

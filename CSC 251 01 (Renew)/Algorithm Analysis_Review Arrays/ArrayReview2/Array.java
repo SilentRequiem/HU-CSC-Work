@@ -6,6 +6,8 @@ public class Array {
    int size = 10;
    
    int[] myArray = new int[size];
+
+   int count = 0;
    
    
    public void printArray() {
@@ -72,9 +74,9 @@ public class Array {
       }
       
       public void PartArray() {
-         int size = 15;
          int[] myArray2 = new int[size];
          int num2;
+         
          
          
          //we are storing 6 elements
@@ -94,6 +96,7 @@ public class Array {
                }
          
             myArray2[i] = num2;
+            count++;
          
          }
          
@@ -101,9 +104,11 @@ public class Array {
          for (int i = 0; i < 6; i++) {
       
       
-      System.out.print(myArray2[i] + ", ");
+            System.out.print(myArray2[i] + ", ");
    
-      }
+         }
+
+      System.out.println("Has " + count + " elements.");
          
       }
          
