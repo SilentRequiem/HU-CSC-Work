@@ -1,0 +1,29 @@
+{
+  "activityEntities" : [
+    "projectCreated",
+    [
+      {
+        "createdDate" : "2026-09-04T18:14:23Z",
+        "event" : "projectCreated",
+        "id" : "4EBE3CDC-C3D6-4E0D-9B7E-FB849FC38351",
+        "subtitle" : "TrailAnalyzer",
+        "title" : "Project Created"
+      }
+    ]
+  ],
+  "authorName" : "Michael Amoo",
+  "createdDate" : "2026-09-04T18:14:23Z",
+  "description" : "",
+  "id" : "C63158BA-A864-4735-8CD2-98F90DC448C5",
+  "license" : "",
+  "location" : "",
+  "modifiedDate" : "2026-09-04T18:14:23Z",
+  "projectName" : "TrailAnalyzer",
+  "settingsEntity" : {
+    "snapshotOnExtendTraining" : true,
+    "snapshotOnResumeTraining" : false
+  },
+  "taskType" : "generalRegresor",
+  "title" : "Tabular Regression",
+  "version" : "1.1"
+}
