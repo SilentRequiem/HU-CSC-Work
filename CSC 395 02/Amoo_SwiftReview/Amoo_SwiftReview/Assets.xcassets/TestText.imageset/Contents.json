@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "depositphotos_50374989-stock-photo-test-word.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "depositphotos_50374989-stock-photo-test-word 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "depositphotos_50374989-stock-photo-test-word 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
