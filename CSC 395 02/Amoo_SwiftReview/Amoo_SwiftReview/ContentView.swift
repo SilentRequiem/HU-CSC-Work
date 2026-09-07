@@ -191,6 +191,10 @@ struct TopicDetailView: View {
                     }
                     .padding()
                     
+                    NavigationLink("What I Learned") {
+                        DocumentationView()
+                    }
+                    
                     NavigationLink("Test Sentiment Analysis") {
                         SentimentView()
                     }
