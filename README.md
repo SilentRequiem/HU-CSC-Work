@@ -2,29 +2,13 @@
 
 This repository contains my coursework and projects completed as part of my Computer Science and Cyber Security studies at Hampton University.
 
-It includes assignments, labs, and projects from multiple courses, showing my progression in programming, problem-solving, software development, data structures, cybersecurity, and Apple-platform development.
+It includes assignments, labs, and projects from multiple courses, showing my progression in programming, problem-solving, data structures, software development, and cybersecurity.
 
 ---
 
 ## Overview
 
-The purpose of this repository is to document my academic work and track my growth as a developer. Each folder represents work completed in a specific course, while larger projects show how concepts from those courses were applied in practice.
-
----
-
-## Featured Projects
-
-### [HUCart](./CSC%20291%2002)
-Swift/SwiftUI shopping application created during CSC 291. The project helped reinforce navigation, reusable views, state management, cart logic, and iOS interface design.
-
-### [Amoo SwiftReview](./CSC%20395%2002/Amoo_SwiftReview)
-SwiftUI review application created for CSC 395. It uses SwiftData, Observation, navigation, CRUD operations, relationships, Natural Language sentiment analysis, and Vision OCR.
-
-### [TrailAnalyzer](./CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%201)
-Create ML tabular regression project using structured trail data to practice model training, feature selection, validation, evaluation, and Core ML export.
-
-### [Amoo FruitAnalyzer](./CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202)
-Create ML image-classification project trained to distinguish between fruit classes such as apples, bananas, and oranges.
+The purpose of this repository is to document my academic work and track my technical growth over time. Each folder represents work completed in a specific course, while larger assignments and projects show how course concepts were applied in practice.
 
 ---
 
@@ -52,7 +36,7 @@ Implementation and analysis of data structures such as arrays, lists, stacks, an
 Introduction to iOS development using Swift and SwiftUI.
 
 ### [CSC 395 – Advanced Swift App Development with ARKit](./CSC%20395%2002)
-Advanced iOS development using SwiftUI with a focus on modern Apple frameworks and app architecture. Coursework includes SwiftData persistence, Observation and shared data models, Natural Language processing, Vision text recognition, Create ML model training, image classification, Core ML, and preparation for ARKit/RealityKit development.
+Advanced iOS development using SwiftUI, SwiftData, Core ML/Create ML, Vision, Natural Language, and ARKit/RealityKit.
 
 ### [CYS 323 – Ethics, Law, and Policy in Cyberspace](./CYS%20323%2001)
 Exploration of ethical, legal, and policy issues related to cybersecurity.
@@ -113,7 +97,7 @@ HU-CSC-Work/
 
 This repository serves as a record of my academic work and a reference for future projects. It reflects both completed coursework and my development over time.
 
-As later courses build on earlier ones, the repository also shows how my work has progressed from introductory programming toward larger applications, data structures, machine learning, and advanced Apple-platform development.
+As later courses build on earlier ones, the repository shows progression from introductory programming into data structures, cybersecurity topics, application development, and machine learning.
 
 ---
 
