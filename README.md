@@ -35,6 +35,9 @@ Implementation and analysis of data structures such as arrays, lists, stacks, an
 ### CSC 291 – Swift Programming  
 Introduction to iOS development using Swift and SwiftUI.
 
+### CSC 395 – Advanced Swift App Development with ARKit  
+Advanced iOS development using SwiftUI with a focus on modern Apple frameworks and app architecture. Coursework includes SwiftData persistence, Observation and shared data models, Natural Language processing, Vision text recognition, Create ML model training, image classification, Core ML, and preparation for ARKit/RealityKit development.
+
 ### CYS 323 – Ethics, Law, and Policy in Cyberspace  
 Exploration of ethical, legal, and policy issues related to cybersecurity.
 
@@ -46,6 +49,10 @@ Exploration of ethical, legal, and policy issues related to cybersecurity.
 - Object-oriented programming  
 - Data structures and logic  
 - Swift and iOS development  
+- SwiftUI state management and data flow  
+- SwiftData persistence and model relationships  
+- Core ML and Create ML model training  
+- Natural Language and Vision framework basics  
 - Understanding of cybersecurity principles  
 - Writing and analyzing technical concepts  
 
@@ -62,6 +69,7 @@ HU-CSC-Work/
 │── CSC-215/
 │── CSC-251/
 │── CSC-291/
+│── CSC-395/
 │── CYS-323/
 ```
 
