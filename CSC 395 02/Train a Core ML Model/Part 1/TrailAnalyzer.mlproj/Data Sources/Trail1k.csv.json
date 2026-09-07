@@ -1,0 +1,80 @@
+{
+  "activityEntities" : [
+
+  ],
+  "createdDate" : "2026-09-04T18:15:31Z",
+  "dataPathRelativeToProjectURL" : "../../Downloads/TrailData/Trail1k.csv/",
+  "dataResult" : {
+    "columnTypes" : [
+      "Int",
+      "Int",
+      "String",
+      "Int",
+      "Int"
+    ],
+    "columnValues" : [
+      "1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3",
+      "0, 0, 0, 0, 0, 0, 0, 300, 300, 300, 300, 0, 0, 0, 0, 0, 0, 0, 0, 300, 300, 0, 0, 0, 0, 0, 0, 0, 0, 300",
+      "paved, sandy, sandy, sandy, sandy, sandy, sandy, paved, paved, paved, sandy, paved, paved, paved, paved, sandy, sandy, sandy, sandy, paved, paved, paved, paved, paved, paved, sandy, sandy, sandy, sandy, paved",
+      "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0",
+      "1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4"
+    ],
+    "columns" : [
+      "distance",
+      "elevation",
+      "terrain",
+      "dangerous",
+      "risk"
+    ],
+    "createdDate" : "2026-09-04T18:15:31Z",
+    "dataAnalysis" : {
+      "classifierAnalysis" : {
+
+      },
+      "issues" : [
+        {
+          "description" : "No target selected",
+          "severity" : "notReady"
+        },
+        {
+          "description" : "Data has 1000 rows",
+          "severity" : "info"
+        },
+        {
+          "description" : "No features selected",
+          "severity" : "notReady"
+        }
+      ],
+      "objectDetectorAnalysis" : {
+        "details" : {
+
+        }
+      },
+      "summary" : {
+        "canUseValidation" : 1,
+        "sampleCount" : 1000
+      }
+    },
+    "dataSourceID" : "CAA842B4-0A0A-4FBC-AFD7-3FC85181BBB4",
+    "dataURL" : "file:///Users/CSCswift/Downloads/TrailData/Trail1k.csv",
+    "error" : {
+      "code" : 1000,
+      "domain" : "composer.error.domain",
+      "errorType" : "notReady",
+      "reason" : "No target selected"
+    },
+    "itemsCount" : 1000
+  },
+  "dataURL" : "file:///Users/CSCswift/Downloads/TrailData/Trail1k.csv",
+  "experimentIDs" : [
+    "802E7305-15E1-4262-A730-E0BFF4A28BA4",
+    "B771AF3B-C4D4-487D-8894-C098FDB12E8E",
+    "4ECC8FCD-6BC5-4B1D-A64D-28F4F7EFDBFC"
+  ],
+  "id" : "CAA842B4-0A0A-4FBC-AFD7-3FC85181BBB4",
+  "modifiedDate" : "2026-09-04T18:17:45Z",
+  "pathType" : 0,
+  "preferredFilename" : "Trail1k.csv",
+  "title" : "Trail1k.csv",
+  "version" : "1.0"
+}
