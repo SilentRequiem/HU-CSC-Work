@@ -1,0 +1,440 @@
+{
+  "activityEntities" : [
+    "dataSourceMetrics",
+    [
+      {
+        "createdDate" : "2026-09-07T05:45:08Z",
+        "event" : "dataSourceMetrics",
+        "id" : "3B3BF47B-01A0-41DA-9A66-999EE0E778C7",
+        "subtitle" : "3 Classes, 87 Items",
+        "title" : "Data Summary"
+      }
+    ],
+    "dataSourceCreated",
+    [
+      {
+        "createdDate" : "2026-09-07T05:43:15Z",
+        "event" : "dataSourceCreated",
+        "id" : "A0B3F9EF-23AA-4E3E-9D30-3B91ADBF15E2",
+        "subtitle" : "Training",
+        "title" : "Data Source Created"
+      }
+    ],
+    "dataSourceTrainingStarted",
+    [
+      {
+        "createdDate" : "2026-09-07T05:45:08Z",
+        "event" : "dataSourceTrainingStarted",
+        "id" : "57F5495C-2937-4543-B836-B41F556B5C18",
+        "subtitle" : "Amoo_FruitAnalyzer 1",
+        "title" : "Used By"
+      }
+    ]
+  ],
+  "createdDate" : "2026-09-07T05:43:15Z",
+  "dataPathRelativeToProjectURL" : "../Training/",
+  "dataResult" : {
+    "classesCount" : 3,
+    "createdDate" : "2026-09-07T05:43:15Z",
+    "dataAnalysis" : {
+      "classifierAnalysis" : {
+        "details" : [
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8866.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8835.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8875.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8910.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8859.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8895.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8841.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8888.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8883.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8909.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8855.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8852.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8844.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8914.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8891.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8901.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8851.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8868.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8903.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8857.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8869.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8880.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8870.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8830.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8832.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8860.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8904.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8881.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8864.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8876.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8829.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8878.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8834.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8874.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8836.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8900.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8848.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8905.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8846.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8839.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8840.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8877.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8847.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8862.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8885.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8892.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8845.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8838.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8867.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8871.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8911.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8854.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8873.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8831.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8863.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8913.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8865.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8833.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8915.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8861.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8906.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8907.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8879.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8837.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8887.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8908.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8894.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8882.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8912.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8849.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8902.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8890.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8886.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8898.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8896.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8899.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8856.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8858.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8889.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8872.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8842.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8897.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Apple/IMG_8843.HEIC",
+          [
+            "Apple"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8853.HEIC",
+          [
+            "Orange"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8893.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Banana/IMG_8884.HEIC",
+          [
+            "Banana"
+          ],
+          "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/Orange/IMG_8850.HEIC",
+          [
+            "Orange"
+          ]
+        ],
+        "labelStats" : {
+          "Apple" : 22,
+          "Banana" : 31,
+          "Orange" : 34
+        }
+      },
+      "issues" : [
+        {
+          "description" : "3 classes found, including Orange, Banana, Apple",
+          "severity" : "debug"
+        },
+        {
+          "description" : "87 images found, automatically creating validation set",
+          "severity" : "good"
+        },
+        {
+          "description" : "Smallest class is \"Apple\" with 22 images",
+          "severity" : "debug"
+        },
+        {
+          "description" : "Largest class is \"Orange\" with 34 images",
+          "severity" : "debug"
+        }
+      ],
+      "objectDetectorAnalysis" : {
+        "details" : {
+
+        }
+      },
+      "summary" : {
+        "canUseValidation" : 1,
+        "classCount" : 3,
+        "sampleCount" : 87
+      }
+    },
+    "dataSourceID" : "284E0D92-0570-4498-BC69-143DEBBFB5ED",
+    "dataURL" : "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/",
+    "itemsCount" : 87
+  },
+  "dataURL" : "file:///Users/CSCswift/Documents/HU-CSC-Work/CSC%20395%2002/Train%20a%20Core%20ML%20Model/Part%202/Training/",
+  "experimentIDs" : [
+    "29989AB9-A487-4FAD-9239-A0697C130782"
+  ],
+  "id" : "284E0D92-0570-4498-BC69-143DEBBFB5ED",
+  "modifiedDate" : "2026-09-07T05:46:33Z",
+  "pathType" : 0,
+  "preferredFilename" : "Training",
+  "title" : "Training",
+  "version" : "1.0"
+}

@@ -1,0 +1,29 @@
+{
+  "activityEntities" : [
+    "projectCreated",
+    [
+      {
+        "createdDate" : "2026-09-07T05:41:09Z",
+        "event" : "projectCreated",
+        "id" : "B305FCA6-EBFF-4915-BFA9-97277840449E",
+        "subtitle" : "Amoo_FruitAnalyzer",
+        "title" : "Project Created"
+      }
+    ]
+  ],
+  "authorName" : "Michael Amoo",
+  "createdDate" : "2026-09-07T05:41:09Z",
+  "description" : "",
+  "id" : "56A71399-10E9-49F9-A0A0-3545FC5D478C",
+  "license" : "",
+  "location" : "",
+  "modifiedDate" : "2026-09-07T05:41:09Z",
+  "projectName" : "Amoo_FruitAnalyzer",
+  "settingsEntity" : {
+    "snapshotOnExtendTraining" : true,
+    "snapshotOnResumeTraining" : false
+  },
+  "taskType" : "imageClassifier",
+  "title" : "Image Classification",
+  "version" : "1.1"
+}
