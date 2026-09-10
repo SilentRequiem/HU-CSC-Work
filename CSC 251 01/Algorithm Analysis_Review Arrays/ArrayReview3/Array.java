@@ -86,8 +86,8 @@ public class Array {
 
 
     public double average() {
-        int[] numArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int sum = 0;
+        double[] numArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        double sum = 0;
 
         for (int i = 0; i < 10; i++) {
             sum += numArray[i];
@@ -110,7 +110,7 @@ public class Array {
     }
 
     public void findRange() {
-        int[] numArray3 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] numArray3 = {11, 22, 33, 44, 55, 66, 77, 888, 9999, 110};
         for (int i = 0; i < 10; i++) {
             
             if (numArray3[i] > 10 && numArray3[i] < 160) {
