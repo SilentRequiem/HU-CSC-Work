@@ -32,7 +32,7 @@ public class Array {
             count++;
         }
 
-        System.out.println("Inputed" + count + "times.");
+        System.out.println("Inputed " + count + " times.");
     }
 
     public void store1stH() {
@@ -53,6 +53,7 @@ public class Array {
             arrayStr[i] = word;
             count++;
         }
+        System.out.println(count + "times");
     }
 
 
@@ -124,6 +125,25 @@ public class Array {
 
     public static void main(String[] args) {
         
+        Array test = new Array();
+
+        test.store10();
+
+        test.store1stH();
+
+        System.out.println(test.search("Hi"));
+
+        System.out.println(test.longest());
+
+
+        System.out.println(test.average());
+        
+        System.out.println(test.find(9));
+
+        test.findRange();
+
+
+
         
 
 
