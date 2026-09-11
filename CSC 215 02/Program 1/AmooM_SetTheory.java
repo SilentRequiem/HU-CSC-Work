@@ -6,7 +6,7 @@ Description: SetTheory
 Date: 9/9/26
 */
 
-public class SetTheory {
+public class AmooM_SetTheory {
     public static void main(String[] args) {
         
     int[] a = {2, 4, 6, 8, 10};
