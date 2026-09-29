@@ -1,9 +1,11 @@
 /* 
+Program Name:  MA_Driver.java
 Author: Michael Amoo
 Instructor:  Dr. Jean Muhammad || Mr. Higgs
 Class:  CSC 251 Data Structures
-Description:  Manual String Stack (Driver)
-Date: 9/29/26
+Description:  Stack Array - using Strings
+Due Date:  October 8, 2026
+Date: September 29, 2026
 */
 
 import java.util.Scanner;

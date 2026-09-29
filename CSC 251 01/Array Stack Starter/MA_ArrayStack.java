@@ -1,18 +1,46 @@
-/* 
+/*
+Program Name:  MA_ArrayStack.java
 Author: Michael Amoo
 Instructor:  Dr. Jean Muhammad || Mr. Higgs
-Class:  CSC 251 Data Structures
-Description:  Manual String Stack
-Date: 9/29/26
+Class:  CSC251-01-Fall 2026
+Description:  Stack Array - using Strings
+Due Date:  October 8, 2026
+Date: September 29, 2026
 */
 
+
+/*
+TODO:
+1) Class : FILI_ArrayStack    - Strings 
+Stacks: origStack, tempStack
+- stackSize = 20 --- 
+- define top, ttop
+- create a storeStack() method -------- store 10 elements into the stack ( ask the user for a string  (must be at least 6 characters) inside of the method
+- create a printOStack() method -------- print all elements in the stack - In order it was added
+-create a printRStack() method ---- print all elements in the stack - In reverse order
+- create a searchStack(char myChar) method ----- search all strings in the Stack that have myChar as the 4th character - return how many you found
+-create a numOccur(String str)  method ------- return:  int  -  find the number of occurrences of str - return number of occurrences
+- create a buildString() method -  create a string with all strings in the stack  with the 2nd character: 'h'  - return string
+- create a method  printAllChar(char c): print all elements that have the character c  in the 5th character of the string
+- create a method: add5Strings() - add 5 more strings to the stack // test to see if you have the space ( must use a loop)
+- create deleteStackOne(String str) ---- this method will delete 1 occurrence of str only
+- create deleteStackAll(String str) ---- this method will delete all occurrence of str 
+- create a method addOneElementAfter(String search, addString) -  this method adds 1 element to the stack
+- create a method to check if stack is full:  stackFull() - returns boolean
+- create a method to check if stack is empty:  stackEmpty() - returns boolean
+2) Create a FILIStackDriver 
+create your object:  your object:  FILI_object - Ex: JM_object
+call all the methods
+Due Date: Final Stack Program Return Oct. 8th   before Midnight 11:59  - deduction 10 points per day. 
+
+*/
 
 /*
 Things to do:
 - Check if element can be added before adding
 - call object FILI_Object
 - Muhammad will input her strings so make sure she can do so via driver or class
-
+- try to call via method (ex: myChar.obj.searchStack("string"))
 */
 
 
