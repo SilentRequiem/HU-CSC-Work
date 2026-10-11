@@ -1,73 +1,154 @@
-/* 
+/*
 Program Name:  MA_Driver.java
 Author: Michael Amoo
-Instructor:  Dr. Jean Muhammad || Mr. Higgs
-Class:  CSC 251 Data Structures
-Description:  Stack Array - using Strings
-Due Date:  October 8, 2026
+Instructor: Dr. Jean Muhammad || Mr. Higgs
+Class: CSC 251 Data Structures
+Description: Stack Array - using Strings
+Due Date: October 8, 2026
 Date: September 29, 2026
 */
 
 import java.util.Scanner;
 
-public class MA_Driver
-{
+public class MA_Driver {
+
     public static void main(String[] args) {
 
-        MA_ArrayStack objectMA = new MA_ArrayStack();
-        Scanner keyboard = new Scanner(System.in);
+        MA_ArrayStack MA_Object = new MA_ArrayStack();
 
-        //store stack
-        objectMA.storeStack(keyboard);
+        // Reuse the Scanner from MA_ArrayStack
+        Scanner keyboard = MA_Object.keyboard;
 
-        //print stack
-        objectMA.printStack();
 
-        //search stack
-        System.out.print("Enter a string to search: ");
-        String sSearch = keyboard.nextLine();
-        System.out.println("Found? " + objectMA.searchStack(sSearch));
+        // Store 10 Strings
+        MA_Object.storeStack();
 
-        //num occurrences
-        System.out.print("Enter a string to count: ");
-        String sCount = keyboard.nextLine();
-        System.out.println("Occurrences: " + objectMA.numOccur(sCount));
+        System.out.println();
 
-        //build string
-        System.out.println("Build string: " + objectMA.buildString());
 
-        //print all char
-        System.out.print("Enter char for 5th position: ");
+        // Print in original order
+        System.out.println("Original Stack:");
+        MA_Object.printOStack();
+
+        System.out.println();
+
+
+        // Print in reverse order
+        System.out.println("Reverse Stack:");
+        MA_Object.printRStack();
+
+        System.out.println();
+
+
+        // Search for a character in the 4th position
+        System.out.println("Enter a character to search for as the 4th character:");
+        char myChar = keyboard.nextLine().charAt(0);
+
+        int charCount = MA_Object.searchStack(myChar);
+
+        System.out.println("Number of Strings with " + myChar + " as the 4th character: " + charCount);
+
+
+        // Count occurrences of a String
+        System.out.println("Enter a String to count:");
+        String str = keyboard.nextLine();
+
+        int occurrences = MA_Object.numOccur(str);
+
+        System.out.println(
+            str + " occurs " + occurrences + " time(s)."
+        );
+
+
+        // Build String using Strings whose 2nd character is h
+        String builtString = MA_Object.buildString();
+
+        System.out.println("Strings with 'h' as the 2nd character: " + builtString);
+
+
+        // Print Strings whose 5th character matches c
+        System.out.println("Enter a character to search for as the 5th character:");
+
         char c = keyboard.nextLine().charAt(0);
-        objectMA.printAllChar(c);
 
-        //add 5 strings
-        objectMA.add5Strings(keyboard);
+        System.out.println("Matching Strings:");
+        MA_Object.printAllChar(c);
 
-        //delete one
-        System.out.print("Delete one occurrence of: ");
-        String d1 = keyboard.nextLine();
-        objectMA.deleteStackOne(d1);
+        System.out.println();
 
-        //delete all
-        System.out.print("Delete all occurrences of: ");
-        String dAll = keyboard.nextLine();
-        objectMA.deleteStackAll(dAll);
 
-        //add after
-        System.out.print("Search string: ");
-        String s1 = keyboard.nextLine();
-        System.out.print("Add string after: ");
-        String s2 = keyboard.nextLine();
-        objectMA.addOneElementAfter(s1, s2);
+        // Add 5 more Strings
+        System.out.println("Add 5 more Strings:");
+        MA_Object.add5Strings();
 
-        //check full/empty
-        System.out.println("Stack full? " + objectMA.origStackFull());
-        System.out.println("Stack empty? " + objectMA.origStackEmpty());
+        System.out.println();
 
-        //final print
-        objectMA.printStack();
+        System.out.println("Stack after adding:");
+        MA_Object.printOStack();
 
-        keyboard.close();
+        System.out.println();
+
+
+        // Delete one occurrence
+        System.out.println(
+            "Enter a String to delete ONE occurrence of:"
+        );
+
+        String deleteOne = keyboard.nextLine();
+
+        MA_Object.deleteStackOne(deleteOne);
+
+        System.out.println("Stack after deleting one occurrence:");
+        MA_Object.printOStack();
+
+        System.out.println();
+
+
+        // Delete all occurrences
+        System.out.println(
+            "Enter a String to delete ALL occurrences of:"
+        );
+
+        String deleteAll = keyboard.nextLine();
+
+        MA_Object.deleteStackAll(deleteAll);
+
+        System.out.println("Stack after deleting all occurrences:");
+        MA_Object.printOStack();
+
+        System.out.println();
+
+
+        // Add one element after a searched element
+        System.out.println(
+            "Enter the String you want to search for:"
+        );
+
+        String search = keyboard.nextLine();
+
+        System.out.println(
+            "Enter the new String you want to add after it:"
+        );
+
+        String addString = keyboard.nextLine();
+
+        MA_Object.addOneElementAfter(search, addString);
+
+        System.out.println("Stack after insertion:");
+        MA_Object.printOStack();
+
+        System.out.println();
+
+
+        // Check full
+        System.out.println(
+            "Stack is full: " + MA_Object.stackFull()
+        );
+
+
+        // Check empty
+        System.out.println(
+            "Stack is empty: " + MA_Object.stackEmpty()
+        );
     }
 }
