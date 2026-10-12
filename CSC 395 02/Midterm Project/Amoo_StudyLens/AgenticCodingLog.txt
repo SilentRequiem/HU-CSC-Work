@@ -1,0 +1,630 @@
+CSC 395 - Advanced Swift App Development with ARKit
+Midterm Project - StudyLens
+Michael Amoo
+
+Agentic Coding Development Log
+
+==================================================
+PROMPT 1 - Initial SwiftUI Interface
+==================================================
+
+Build the initial SwiftUI interface for an iOS app named StudyLens. StudyLens is a multimodal study assistant that will eventually let a student scan printed notes, handwrite notes, dictate voice reminders, generate AI study material, and view a brain map. For this first pass, do not implement Vision, Foundation Models, speech recognition, PencilKit, networking, or any AI functionality yet.
+Create a clean tab-based interface with four sections:
+1. Capture: buttons or cards for Scan Image, Speak Note, and Write Note.
+2. Notes: a place to display captured study notes.
+3. Study: placeholders for Summary, Key Concepts, and Practice Questions.
+4. Brain Map: a placeholder screen for a future concept map.
+Use native SwiftUI and SF Symbols. Keep the design polished but simple and suitable for a college study app. Organize the project into sensible folders such as Models, Views, Services, and ViewModels so later features can be added cleanly. Do not add mock API results or fake AI output. Make sure the project builds.
+Also summarize which files you created or changed and why.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude Opus created the initial StudyLens project structure with four tabs:
+Capture, Notes, Study, and Brain Map.
+
+It added:
+- StudyNote model
+- Note source tracking
+- In-memory note storage
+- Shared NotesViewModel
+- Capture option cards
+- Placeholder Study and Brain Map screens
+
+The project built successfully.
+
+
+==================================================
+PROMPT 2 - Vision OCR Scan Note
+==================================================
+
+Implement the first real StudyLens capture feature: scanning an image and extracting text with Apple's Vision framework.
+Requirements:
+- Preserve the existing project architecture and all current tabs.
+- Do not implement Foundation Models, speech recognition, PencilKit, Wikipedia/API networking, or the brain map yet.
+- Replace the current Scan Image placeholder with a functional Scan Note screen.
+- Allow the user to select an image from the photo library using the appropriate native SwiftUI photo picker.
+- Display the selected image in the interface.
+- Create a separate VisionTextRecognizer service using Apple's Vision framework and VNRecognizeTextRequest.
+- Use accurate text recognition and enable language correction where appropriate.
+- Perform Vision work without blocking the main UI.
+- Show a progress/loading state while recognition is running.
+- Display the recognized text in an editable text area so the user can correct OCR mistakes before saving.
+- Handle cases where no text is detected and show a useful error message.
+- Add a Save Note button that creates a StudyNote with .scan as its source and saves it through the existing shared NotesViewModel.
+- After saving, the new note should appear in the existing Notes tab.
+- Generate a reasonable title automatically from the recognized content, but allow the user to edit the title before saving.
+- Do not create fake OCR output or mock results.
+- Add concise comments around the important Vision code so I can later identify it for my technical report.
+- Build the project when finished and fix any compilation errors.
+After implementation, summarize:
+1. Every file created or changed.
+2. How the image gets from the photo picker into Vision.
+3. How VNRecognizeTextRequest extracts the text.
+4. How the recognized text becomes a saved StudyNote.
+5. Any warnings or limitations I should know about.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude implemented the Scan Image feature using Apple's Vision framework.
+
+Created:
+- VisionTextRecognizer.swift
+- ScanNoteViewModel.swift
+- ScanNoteView.swift
+
+Updated:
+- CaptureView.swift
+
+The implementation uses PhotosPicker to select an image, converts the
+image for Vision processing, and runs VNRecognizeTextRequest with accurate
+recognition and language correction enabled.
+
+Recognized text is displayed in an editable TextEditor. The user can
+correct OCR mistakes, edit the generated title, and save the result as a
+StudyNote with the .scan source.
+
+The project built successfully.
+
+
+==================================================
+PROMPT 3 - Foundation Models Study Guide
+==================================================
+
+Implement StudyLens’s second required AI feature using Apple’s current Foundation Models framework.
+StudyLens already has a working Vision OCR Scan Note feature. Users can select an image, extract text using Vision, edit the recognized text and title, and save it through the shared NotesViewModel.
+Preserve all existing Vision and note functionality.
+For this stage, implement an AI-powered Study Guide using Apple’s Foundation Models framework.
+Platform/testing requirements
+- The development Mac is an Apple M2 MacBook Air running macOS 27.
+- I will test Foundation Models using the Mac target.
+- Keep the existing iOS app compilable even on devices that cannot run Apple Intelligence, such as an iPhone 14 Pro Max.
+- Use the Foundation Models APIs that actually exist in the currently installed Xcode 27 SDK. Do not copy obsolete API names from older examples.
+Foundation Model requirements
+- Import FoundationModels.
+- Use the system language model, preferably SystemLanguageModel.default where appropriate with the installed SDK.
+- Check the model’s availability before creating a generation request.
+- Never crash or hang when the model is unavailable.
+- If Apple Intelligence is disabled, the device is not eligible, or the model is not ready, show a useful message in the Study screen.
+- Create a separate StudyAnalysisService for all Foundation Models logic.
+- Create a StudyViewModel that manages availability, loading, generated results, and errors.
+- Do not place model calls directly inside the SwiftUI view.
+Structured generation
+Use guided generation with @Generable. Do not ask the model to return JSON and do not manually parse its response.
+Create small structured models for:
+StudyAnalysis
+- summary
+- keyConcepts
+- practiceQuestions
+- brainMap
+KeyConcept
+- concept name
+- short explanation based on the notes
+PracticeQuestion
+- question
+- answer
+BrainMap
+- central topic
+- concepts/nodes
+- relationships between concepts
+ConceptRelationship
+- source concept
+- target concept
+- short relationship description
+Keep the result intentionally small. Aim for roughly:
+- 4 to 6 key concepts
+- 3 to 5 practice questions
+- 4 to 8 brain-map relationships
+Use @Guide count constraints where they improve reliability and are supported by the installed SDK.
+Grounding requirements
+Analyze the user’s actual saved StudyNote objects.
+Combine the saved note titles and bodies into clearly separated study material before sending them to the model.
+Instruct the model:
+- Base its study guide only on information supplied in the notes.
+- Do not introduce outside facts just to make the guide longer.
+- If the notes do not contain enough information for something, indicate that rather than inventing an answer.
+- Keep explanations concise and useful for studying.
+Study interface
+Replace the current Study placeholders with a functional screen.
+If there are no saved notes:
+- show an empty state telling the user to add study material first.
+If the model is unavailable:
+- show a clear Foundation Models / Apple Intelligence availability message.
+If notes exist and the model is available:
+- show a Generate Study Guide button.
+While generating:
+- show progress
+- disable duplicate generation requests
+After generation, show:
+1. Summary
+2. Key Concepts
+3. Practice Questions
+For each practice question, hide the answer initially and allow the user to reveal it.
+Save the generated brain-map structure in the analysis result, but do not implement the visual Brain Map yet. The Brain Map tab should remain a placeholder during this stage.
+Do not implement voice notes, PencilKit, Wikipedia/API networking, or text-to-speech yet.
+Add concise comments near the important Foundation Models code so I can identify useful screenshots for my technical report.
+Build the project when finished. If APIs differ because of the current macOS 27 / Xcode 27 beta SDK, inspect the installed framework and adapt to the APIs that actually compile rather than guessing.
+When finished, explain:
+1. Files created or changed.
+2. How model availability is checked.
+3. How StudyLens converts saved notes into a prompt.
+4. How LanguageModelSession is used.
+5. How @Generable produces the StudyAnalysis.
+6. How the Study UI presents the generated result.
+7. How the brain-map data is being prepared for the next stage.
+8. Any warnings, limitations, or device requirements.
+Finally, build the Mac target and report whether it compiled successfully.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude implemented StudyLens's second AI feature using Apple's
+Foundation Models framework.
+
+Created:
+- StudyAnalysis.swift
+- StudyAnalysisService.swift
+- StudyViewModel.swift
+
+Updated:
+- StudyView.swift
+- ContentView.swift
+
+StudyLens now checks SystemLanguageModel availability and uses
+LanguageModelSession with guided generation.
+
+The generated StudyAnalysis contains:
+- Summary
+- Key concepts
+- Practice questions and answers
+- Brain-map concepts and relationships
+
+The model is instructed to use only information from the user's
+saved notes.
+
+Builds succeeded for:
+- My Mac
+- iPhone 14 Pro Max simulator
+- iPhone 18 Pro Max simulator
+
+
+
+==================================================
+PROMPT 4 - Brain Map Visualization
+==================================================
+
+Implement the visual Brain Map feature for StudyLens using the brain-map data already generated by the Foundation Models study analysis.
+Do not make another Foundation Models request for this feature. Use the existing generated BrainMap data from the shared StudyViewModel.
+Preserve all existing Vision OCR and Foundation Models functionality.
+Requirements:
+- Replace the current Brain Map placeholder with a functional SwiftUI concept map.
+- Use the existing StudyAnalysis.brainMap structure containing the central topic, concepts, and concept relationships.
+- Do not use a third-party graph library.
+- Build the visualization using native SwiftUI.
+The map should:
+- Display the central topic prominently in the center.
+- Arrange the generated concepts around the central topic.
+- Draw visible connections between concepts based on the generated relationships.
+- Make the relationships readable rather than displaying disconnected bubbles.
+- Use a clean visual hierarchy so the central topic is visually different from normal concept nodes.
+- Give nodes enough spacing that labels do not overlap badly.
+- Support both macOS and iOS screen sizes.
+- Allow the map area to scroll if needed.
+Add simple interaction:
+- Tapping a concept node should select it.
+- Show a small detail panel, popover, sheet, or inspector containing the selected concept and any available relationship information.
+- Clearly show which concepts connect to the selected node.
+State handling:
+- If no Study Guide has been generated yet, show an empty state telling the user to first generate a guide from the Study tab.
+- If a new Study Guide is generated, the Brain Map should automatically use the new data.
+- Do not generate fake concepts or placeholder relationships.
+Architecture:
+- Keep visualization/layout logic separate from the Foundation Models service.
+- You may create supporting types such as BrainMapNodeView, BrainMapLayout, or similar if useful.
+- Prefer a deterministic layout so the nodes do not randomly jump to different positions every time the view redraws.
+- Keep the implementation reasonably simple and reliable for a class project.
+Visual design:
+- Match the existing StudyLens style.
+- Use SF Symbols and system colors where appropriate.
+- Give the central node a distinctive appearance.
+- Use different but restrained styling for connected concept nodes.
+- Make connection lines visible in both light and dark mode.
+Do not implement Speech Recognition, PencilKit, Wikipedia/API networking, or Text to Speech during this stage.
+Build and test the feature for:
+- My Mac
+- iPhone 18 Pro Max simulator
+When finished, explain:
+1. Every file created or changed.
+2. How the generated BrainMap data reaches BrainMapView.
+3. How node positions are calculated.
+4. How relationship lines are drawn.
+5. How node selection works.
+6. Any differences between the macOS and iOS layouts.
+7. Any limitations of the current graph layout.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude implemented a visual Brain Map using the structured data already
+generated by the Foundation Models study analysis.
+
+Created:
+- BrainMapGraph.swift
+- BrainMapLayout.swift
+- BrainMapNodeView.swift
+- BrainMapEdgeView.swift
+- BrainMapDetailPanel.swift
+
+Updated:
+- BrainMapView.swift
+- StudyAnalysis.swift
+
+The Brain Map:
+- Uses the existing generated BrainMap data
+- Displays a central topic and related concepts
+- Draws directional relationship lines
+- Shows relationship labels
+- Supports selecting concepts
+- Shows more details about selected concepts
+- Updates automatically when a new Study Guide is generated
+
+No additional Foundation Models request is made when opening the Brain Map.
+
+The project builds successfully for macOS and iOS.
+
+==================================================
+PROMPT 5 - PencilKit Write Note and Handwriting OCR
+==================================================
+
+Implement StudyLens's Write Note capture feature using Apple PencilKit and the existing Vision OCR pipeline, and add drag-image input as an additional handwriting source.
+
+StudyLens already has:
+- Working Scan Image capture using Apple Vision OCR
+- Shared NotesViewModel and StudyNote model
+- StudyNote source tracking for scan, voice, and handwriting
+- Foundation Models study-guide generation
+- Generated Summary, Key Concepts, Practice Questions, and Brain Map data
+- Interactive Brain Map visualization
+
+Preserve all existing functionality.
+
+Requirements:
+- Replace the current Write Note placeholder with a functional handwriting screen.
+- Use PencilKit for the handwriting canvas where supported.
+- On iOS and iPadOS, use PKCanvasView and the native PencilKit tool picker.
+- Allow Apple Pencil input on iPad, while also supporting finger input where appropriate.
+- Keep the Mac target working. If PKCanvasView or PKToolPicker are unavailable on macOS, provide a native mouse/trackpad drawing fallback using PencilKit drawing data rather than breaking the target.
+- Support undo, redo, and clear.
+- Render the drawing into an image suitable for OCR.
+- Reuse the existing VisionTextRecognizer rather than creating a second OCR pipeline.
+- Recognize the handwriting with Vision and show the recognized text in an editable field.
+- Generate an editable title from the recognized text.
+- Save the result through the shared NotesViewModel as a StudyNote with .handwriting as its source.
+- The saved note must appear in Notes and be usable by the existing Study Guide and Brain Map pipeline.
+- Add drag-and-drop image input to the Write Note screen so an image of handwritten notes can be dropped from Photos, Files, Finder, Safari, or another supported source and recognized through the same Vision pipeline.
+- Show useful loading, empty, and error states.
+- Do not make another Foundation Models request for handwriting recognition.
+- Do not break Scan Image, Study Guide, Practice Questions, or Brain Map.
+- Add concise comments around the important PencilKit, image rendering, Vision OCR, save, and drag/drop code for report screenshots.
+
+Build and verify:
+- My Mac
+- iPhone 18 Pro Max simulator
+
+When finished, explain:
+1. Every file created or changed.
+2. How PencilKit is connected to SwiftUI.
+3. Differences between iPad/iPhone input and macOS input.
+4. How the drawing becomes an image.
+5. How the image enters the existing Vision OCR pipeline.
+6. How the recognized text becomes a .handwriting StudyNote.
+7. How handwritten notes enter the Study Guide and Brain Map pipeline.
+8. How drag-image input works.
+9. Limitations.
+10. Good code sections for report screenshots.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude implemented the Write Note feature with handwriting recognition and drag-image input.
+
+Created:
+- HandwritingCanvas.swift
+- HandwritingRenderer.swift
+- HandwritingNoteViewModel.swift
+- HandwritingNoteView.swift
+
+Updated:
+- CaptureView.swift
+- ScanNoteViewModel.swift
+
+The implementation:
+- Uses PKCanvasView and PKToolPicker on iOS/iPadOS.
+- Supports Apple Pencil, finger input, undo, redo, and clear.
+- Uses a custom macOS drawing view because PKCanvasView and PKToolPicker are not available on the native Mac target.
+- Converts PKDrawing content into a cropped image with a white background.
+- Reuses the existing VisionTextRecognizer for handwriting OCR.
+- Displays recognized text and title so they can be corrected before saving.
+- Saves recognized handwriting as a StudyNote with the .handwriting source.
+- Sends handwritten notes through the same Study Guide and Brain Map pipeline as scanned notes.
+- Accepts dropped handwriting images and recognizes them through the same Vision OCR path.
+
+Known limitations noted during implementation:
+- macOS does not have the same PencilKit tool picker or Apple Pencil pressure/tilt support.
+- Vision handwriting recognition works best with larger, neat handwriting.
+- Drawings and dropped images are used to create the saved text note, but the original drawing/image is not persisted with the note.
+
+Builds succeeded for:
+- My Mac
+- iPhone 18 Pro Max simulator
+
+
+==================================================
+PROMPT 6 - Speak Note Voice Study Tool
+==================================================
+
+Implement StudyLens's Speak Note feature as a complete voice-based study tool.
+
+StudyLens currently has:
+- Working Vision OCR Scan Note capture
+- Working PencilKit Write Note capture with Vision handwriting recognition
+- Shared NotesViewModel and StudyNote model
+- Saved note sources including .scan, .voice, and .handwriting
+- Foundation Models study-guide generation
+- Generated Summary, Key Concepts, Practice Questions, and Brain Map
+- Interactive Brain Map
+
+Preserve all existing functionality.
+
+Requirements:
+
+1. Dictate voice notes
+- Replace the Speak Note placeholder with a real Speak Note screen.
+- Let the user record speech and convert it to text using Apple's Speech framework and microphone input.
+- Show live transcription while recording when supported.
+- Let the user edit the transcript and generated title before saving.
+- Save the result through the shared NotesViewModel as a StudyNote with .voice as its source.
+- Also allow typed text in the Dictate section so the feature remains useful when the user cannot speak.
+- Saved voice notes must appear in Notes and enter the same Study Guide and Brain Map pipeline as the other note types.
+
+2. Read notes aloud
+- Reuse the concepts from the existing Amoo_t2speech AVFoundation assignment.
+- Use AVSpeechSynthesizer and AVSpeechUtterance through a reusable speech-synthesis service.
+- Let the user select a saved note and hear it read aloud.
+- Include Play/Restart, Pause/Resume, Stop, and speaking-rate controls where practical.
+- Highlight or otherwise track the current spoken word if supported cleanly.
+
+3. Quiz Me
+- Add a Quiz Me mode that uses the Practice Questions already generated by the current Study Guide.
+- Do not create a new Foundation Models request just to obtain the questions.
+- Read the question aloud using the shared speech-synthesis service.
+- Let the user answer by speaking.
+- Also allow a typed answer when the user cannot use the microphone.
+- Convert spoken answers to text using the shared speech-recognition service.
+- Evaluate the answer against the expected answer from the generated PracticeQuestion.
+- Use the existing Apple Foundation Models framework for grounded answer evaluation when it is available.
+- The grader must use only the expected answer and the user's response. Do not add outside facts.
+- Return clear outcomes such as Correct, Partially Correct, and Try Again, with a short explanation.
+- If Foundation Models is unavailable, provide a reasonable local keyword/phrase comparison fallback so Quiz Me still works.
+- Reveal the expected answer when useful, especially after an incomplete or incorrect response.
+
+4. Architecture and permissions
+- Keep Speech recognition, AVFoundation synthesis, grading, view models, and SwiftUI screens separated cleanly.
+- Reuse existing services and models instead of duplicating them.
+- Add the microphone and speech-recognition privacy descriptions required by iOS/macOS.
+- Make sure the sandboxed Mac app has audio-input access.
+- Use APIs that actually compile against the installed Xcode 27/macOS 27 SDK.
+- Do not leave deprecated microphone APIs in the new implementation when a current replacement is available.
+
+5. Testing
+Build and verify:
+- My Mac
+- iPhone 18 Pro Max simulator
+
+Preserve Scan Image, Write Note, Notes, Study Guide, Quiz questions, and Brain Map functionality.
+
+When finished, explain:
+1. Every file created or changed.
+2. How microphone audio becomes text.
+3. How AVSpeechSynthesizer reads notes aloud.
+4. How a spoken or typed answer is evaluated.
+5. How voice notes enter the Study Guide pipeline.
+6. Permissions added.
+7. Limitations and real-device testing requirements.
+8. Good code sections for report screenshots.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude implemented Speak Note as a full voice-based study screen with three modes: Dictate, Listen, and Quiz Me.
+
+Created:
+- AnswerEvaluation.swift
+- SpeechRecognitionService.swift
+- SpeechSynthesisService.swift
+- AnswerEvaluationService.swift
+- SpeakNoteViewModel.swift
+- DictateNoteViewModel.swift
+- ReadAloudViewModel.swift
+- QuizMeViewModel.swift
+- SpeakComponents.swift
+- SpeakNoteView.swift
+- DictateNoteSection.swift
+- ReadAloudSection.swift
+- QuizMeSection.swift
+
+Updated:
+- CaptureView.swift
+- App target privacy/build settings for microphone and speech recognition access
+
+Dictate:
+- Requests speech-recognition and microphone permission.
+- Uses AVAudioEngine and Apple's Speech framework for transcription.
+- Supports live transcription and editable text.
+- Allows typed text when speaking is not practical.
+- Saves the finished content as a .voice StudyNote through NotesViewModel.
+
+Listen:
+- Reuses AVSpeechSynthesizer through a shared SpeechSynthesisService.
+- Can read saved notes aloud.
+- Supports speaking controls such as play/restart, pause/resume, stop, and speaking rate.
+
+Quiz Me:
+- Reuses the Study Guide's existing practice questions.
+- Accepts spoken or typed answers.
+- Uses Foundation Models for grounded answer evaluation when available.
+- Falls back to a local keyword-based grader if the model is unavailable.
+- Reports Correct, Partially Correct, or Try Again with an explanation.
+- Can reveal and read the expected answer.
+
+The implementation also added the microphone and speech-recognition permissions needed for the app targets.
+
+Builds succeeded for:
+- My Mac
+- iPhone 18 Pro Max simulator
+
+The main remaining limitation is that microphone behavior, live transcription quality, and Apple Intelligence grading should be verified on a physical supported device.
+
+
+==================================================
+PROMPT 6.5 - Visual Flashcards Study Mode
+==================================================
+
+STATUS: READY TO RUN. No agent result has been recorded yet.
+
+Implement a visual Flashcards study mode for StudyLens, similar in interaction to Quizlet, using the study material StudyLens already generates.
+
+StudyLens currently has:
+- persistent saved notes using SwiftData
+- Scan Image with Vision OCR
+- Write Note with PencilKit and handwriting recognition
+- Speak Note with dictation, text-to-speech, and Quiz Me
+- Foundation Models study-guide generation
+- generated Summary, Key Concepts, Practice Questions, and Brain Map
+- Quiz Me with spoken or typed answers
+- Correct, Partially Correct, and Try Again grading
+- note deletion, Clear All, and note export
+- Brain Map export
+
+Preserve all existing functionality.
+
+Goal:
+Add a dedicated visual Flashcards mode that lets the user study the existing generated study guide as interactive cards.
+
+Do not make another Foundation Models request just to create flashcards. Reuse the data already present in the existing StudyAnalysis / generated study guide whenever possible.
+
+Requirements:
+- Add a clear Study Flashcards button or card in the Study tab near Quiz Me.
+- Opening it should navigate to a dedicated Flashcards screen.
+- Build cards from both Practice Questions and Key Concepts.
+- Practice Question cards: question on the front, expected answer on the back.
+- Key Concept cards: concept name on the front, explanation on the back.
+- If practical, let the user filter between All Cards, Questions, and Key Concepts.
+- Clearly show each card's source/type.
+- Use a large centered card with a smooth SwiftUI flip animation.
+- Prefer a real 3D rotation effect if it remains reliable and readable.
+- Show card number, card type, content, and a small Tap to reveal answer instruction.
+- Support macOS and iPhone layouts.
+
+Navigation:
+- Previous
+- Next
+- Shuffle
+- Restart Deck
+- Each new card should start on its front.
+- Add macOS keyboard controls if practical: Space/Return to flip, Left Arrow for previous, Right Arrow for next.
+
+Session tracking:
+- After revealing an answer, show Know It and Review Again.
+- Track Known, Review, and Remaining counts for the current session.
+- Cards marked Review Again should be available for another pass.
+- At the end, show cards studied, known count, review count, and percentage known.
+- Add Study Review Cards Again, Restart All Cards, and Done actions.
+- This session tracking does not need to change Quiz Me grading.
+
+Read aloud:
+- Reuse the existing SpeechSynthesisService / AVSpeechSynthesizer.
+- Add a Read Aloud action for the visible side of the card.
+- If practical, add Auto Read for the front of each new card.
+- Do not duplicate the speech implementation.
+
+Visual design:
+- Keep the design consistent with StudyLens.
+- Give Flashcards its own restrained accent color.
+- Make the card feel like a study card rather than a normal settings panel.
+- Use rounded corners, subtle shadow, flip animation, and a progress indicator.
+- Support Light Mode and Dark Mode.
+
+Data behavior:
+- Flashcards must use the current generated Study Guide.
+- If the guide is regenerated, Flashcards should use the new data next time they open.
+- Respect the existing out-of-date study-guide behavior if saved notes change.
+- If no guide exists, show an empty state directing the user to generate one from Study.
+- Do not make another Foundation Models request.
+
+Architecture:
+- Keep the implementation separated cleanly.
+- Appropriate supporting files may include Flashcard.swift, FlashcardsViewModel.swift, FlashcardsView.swift, FlashcardView.swift, and a session/result type if useful.
+- Reuse StudyViewModel, StudyAnalysis, Key Concepts, Practice Questions, and the existing speech-synthesis service.
+- Do not duplicate study-guide models unnecessarily.
+
+Testing:
+Build and verify:
+- My Mac
+- iPhone 18 Pro Max simulator
+
+Test when possible:
+- question card front
+- flipped question card
+- key-concept card
+- Previous / Next
+- Shuffle
+- Know It
+- Review Again
+- progress counts
+- session-complete screen
+- read aloud
+- empty state
+- Light Mode
+- Dark Mode
+
+Do not implement document/file importing, drag-and-drop PDF/DOCX/PPTX/CSV/XLSX support, or external APIs in this revision. Those are planned for the next revision.
+
+When finished, explain:
+1. Every file created or changed.
+2. How existing StudyAnalysis data becomes flashcards.
+3. How question and concept cards differ.
+4. How the flip animation works.
+5. How shuffle and navigation work.
+6. How Know It / Review Again progress is tracked.
+7. How the speech service is reused.
+8. How macOS and iOS differ.
+9. Limitations.
+10. Good code sections and UI states for assignment report screenshots.
