@@ -10,7 +10,7 @@ final class StoredNote {
     @Attribute(.unique) var id: UUID
     var title: String
     var body: String
-    /// `NoteSource.rawValue` (scan, voice, handwriting, typed, imported). Stored as text so new sources
+    /// `NoteSource.rawValue` (scan, voice, handwriting, typed, imported, wikipedia). Stored as text so new sources
     /// can be added later without a schema migration.
     var sourceRawValue: String
     var createdAt: Date
@@ -19,6 +19,10 @@ final class StoredNote {
     var importFilename: String?
     var importKindRawValue: String?
     var importUnitCount: Int?
+    // External-source attribution for notes saved from Wikipedia. Optional for the same reason
+    // as the import fields above: existing stores migrate automatically with nil values.
+    var externalTitle: String?
+    var externalURLString: String?
 
     init(note: StudyNote) {
         id = note.id
@@ -29,6 +33,8 @@ final class StoredNote {
         importFilename = note.importInfo?.filename
         importKindRawValue = note.importInfo?.kind.rawValue
         importUnitCount = note.importInfo?.unitCount
+        externalTitle = note.externalSource?.articleTitle
+        externalURLString = note.externalSource?.url?.absoluteString
     }
 
     /// Copies editable fields from a note with the same ID.
@@ -40,6 +46,9 @@ final class StoredNote {
         if importFilename != note.importInfo?.filename { importFilename = note.importInfo?.filename }
         if importKindRawValue != note.importInfo?.kind.rawValue { importKindRawValue = note.importInfo?.kind.rawValue }
         if importUnitCount != note.importInfo?.unitCount { importUnitCount = note.importInfo?.unitCount }
+        if externalTitle != note.externalSource?.articleTitle { externalTitle = note.externalSource?.articleTitle }
+        let urlString = note.externalSource?.url?.absoluteString
+        if externalURLString != urlString { externalURLString = urlString }
     }
 
     var studyNote: StudyNote {
@@ -50,8 +59,14 @@ final class StoredNote {
             // An unknown value can only come from a future version; show it as typed text.
             source: NoteSource(rawValue: sourceRawValue) ?? .typed,
             createdAt: createdAt,
-            importInfo: importInfo
+            importInfo: importInfo,
+            externalSource: externalSource
         )
+    }
+
+    private var externalSource: ExternalSourceInfo? {
+        guard let externalTitle else { return nil }
+        return ExternalSourceInfo(articleTitle: externalTitle, url: externalURLString.flatMap(URL.init(string:)))
     }
 
     private var importInfo: ImportedFileInfo? {

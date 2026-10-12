@@ -307,6 +307,8 @@ private struct NoteRow: View {
                 Group {
                     if let info = note.importInfo {
                         Text("\(note.createdAt.formatted(.dateTime.month().day().hour().minute())) · \(info.filename)")
+                    } else if note.source == .wikipedia {
+                        Text("\(note.createdAt.formatted(.dateTime.month().day().hour().minute())) · From Wikipedia")
                     } else {
                         Text(note.createdAt, format: .dateTime.month().day().hour().minute())
                     }

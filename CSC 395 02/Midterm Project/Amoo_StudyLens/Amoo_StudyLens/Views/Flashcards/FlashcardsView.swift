@@ -124,6 +124,18 @@ struct FlashcardsView: View {
             ratingButtons
             navigationButtons
             speechControls
+
+            if card.kind == .keyConcept {
+                // Same Concept Detail screen as the Study guide's Key Concepts, pushed on the Study
+                // stack above this deck, so Back returns here with the session intact.
+                Button("Concept Details & Learn More", systemImage: "lightbulb") {
+                    viewModel.stopSpeaking()
+                    navigation.openStudy(.concept(StudyConcept(name: card.front, explanation: card.back, origin: .flashcards)))
+                }
+                .font(.footnote)
+                .buttonStyle(.borderless)
+                .tint(.flashcardsAccent)
+            }
         }
     }
 

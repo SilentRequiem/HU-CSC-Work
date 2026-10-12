@@ -8,6 +8,8 @@ struct BrainMapDetailPanel: View {
     let onSelect: (String) -> Void
     /// Shown as a close button when set (the iOS panel); the macOS inspector has its own toggle.
     var onClose: (() -> Void)?
+    /// Opens the shared Concept Detail screen (with the optional Wikipedia Learn More) for this node.
+    var onLearnMore: (() -> Void)?
 
     private var edges: [BrainMapEdge] { graph.edges(involving: node.id) }
 
@@ -45,6 +47,13 @@ struct BrainMapDetailPanel: View {
                 Text("Part of \(graph.central.title).")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+            }
+
+            if let onLearnMore {
+                Button("Concept Details & Learn More", systemImage: "lightbulb", action: onLearnMore)
+                    .font(.subheadline)
+                    .buttonStyle(.bordered)
+                    .tint(.purple)
             }
 
             Divider()

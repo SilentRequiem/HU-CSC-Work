@@ -13,6 +13,7 @@ import Observation
 // `AppNavigationModel` is now the *only* place that decides what is on screen:
 //   • `selectedTab`   – which tab is showing (TabView(selection:)).
 //   • `studyPath`     – the Study tab's stack (NavigationStack(path:)). Only Study screens live here.
+//   • `brainMapPath`  – the Brain Map tab's stack; holds Concept Detail screens opened from the map.
 //   • `activeCapture` – the one Capture sheet that is presented (Scan, Write, Speak, Import).
 //
 // Each value has exactly one writer per user action, so generating a guide (which only changes
@@ -33,6 +34,8 @@ enum StudyDestination: Hashable {
     case flashcards
     /// The multi-select list used by the Selected Notes study source.
     case chooseNotes
+    /// Concept details with the optional Wikipedia Learn More, from Key Concepts or a Key Concept flashcard.
+    case concept(StudyConcept)
 }
 
 @MainActor
@@ -41,6 +44,9 @@ final class AppNavigationModel {
     var selectedTab: AppTab = .capture
     /// Bound to the Study tab's `NavigationStack(path:)`.
     var studyPath: [StudyDestination] = []
+    /// Bound to the Brain Map tab's `NavigationStack(path:)`. Concept details opened from a map
+    /// node are pushed here, so they stay on the Brain Map tab instead of jumping to Study.
+    var brainMapPath: [StudyConcept] = []
     /// The Capture sheet currently presented, if any. Set only by an explicit user action.
     var activeCapture: CaptureOption?
     /// A drop onto the Capture screen, waiting for the Import File sheet to pick it up.
@@ -70,6 +76,14 @@ final class AppNavigationModel {
     func showStudyRoot() {
         studyPath.removeAll()
         selectedTab = .study
+    }
+
+    // MARK: Brain Map
+
+    /// Opens Concept Detail for a map node on the Brain Map tab's own stack.
+    func openBrainMapConcept(_ concept: StudyConcept) {
+        guard brainMapPath.last != concept else { return }
+        brainMapPath.append(concept)
     }
 
     // MARK: Capture

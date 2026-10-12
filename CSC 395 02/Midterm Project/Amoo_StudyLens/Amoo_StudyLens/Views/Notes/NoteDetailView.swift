@@ -29,6 +29,25 @@ struct NoteDetailView: View {
                         .textSelection(.enabled)
                 }
 
+                // Notes saved from Learn More keep their Wikipedia attribution and link.
+                if let external = note.externalSource {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Label("External source: Wikipedia — “\(external.articleTitle)”", systemImage: "globe")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.teal)
+                        if let url = external.url {
+                            Link(destination: url) {
+                                Label("Open Original Article", systemImage: "safari")
+                            }
+                            .font(.caption)
+                            .tint(.teal)
+                        }
+                    }
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.teal.opacity(0.1), in: .rect(cornerRadius: 10))
+                }
+
                 Button {
                     studyThisNote()
                 } label: {

@@ -7,13 +7,21 @@ import SwiftUI
 struct BrainMapView: View {
     @Environment(NotesViewModel.self) private var notesViewModel
     @Environment(StudyViewModel.self) private var studyViewModel
+    @Environment(AppNavigationModel.self) private var navigation
     /// The format chosen from the Export menu; presents the export sheet when set.
     @State private var exportFormat: BrainMapExportFormat?
 
     var body: some View {
-        NavigationStack {
+        @Bindable var navigation = navigation
+
+        // The tab's existing stack, now driven by `AppNavigationModel.brainMapPath` so Concept
+        // Detail (Learn More) can be pushed from a selected node.
+        NavigationStack(path: $navigation.brainMapPath) {
             content
                 .navigationTitle("Brain Map")
+                .navigationDestination(for: StudyConcept.self) { concept in
+                    ConceptDetailView(concept: concept)
+                }
                 #if os(iOS)
                 // A large title would sit behind the legend bar and waste vertical space on the map.
                 .navigationBarTitleDisplayMode(.inline)
@@ -100,6 +108,7 @@ private struct BrainMapScreen: View {
     var outdatedReason: String?
 
     @State private var selectedID: String?
+    @Environment(AppNavigationModel.self) private var navigation
 
     /// `initialSelection` lets previews show the map with a concept already selected.
     init(graph: BrainMapGraph, sourceSummary: String? = nil, outdatedReason: String? = nil, initialSelection: String? = nil) {
@@ -173,7 +182,10 @@ private struct BrainMapScreen: View {
             node: node,
             graph: graph,
             onSelect: { selectedID = $0 },
-            onClose: showsCloseButton ? { selectedID = nil } : nil
+            onClose: showsCloseButton ? { selectedID = nil } : nil,
+            onLearnMore: {
+                navigation.openBrainMapConcept(StudyConcept(name: node.title, explanation: node.explanation, origin: .brainMap))
+            }
         )
     }
 
@@ -327,6 +339,7 @@ struct BrainMapDiagram: View {
     BrainMapView()
         .environment(NotesViewModel())
         .environment(StudyViewModel())
+        .environment(AppNavigationModel())
 }
 
 #Preview("Sample Map") {
@@ -337,6 +350,7 @@ struct BrainMapDiagram: View {
             .navigationBarTitleDisplayMode(.inline)
             #endif
     }
+    .environment(AppNavigationModel())
 }
 
 #Preview("Selected Concept") {
@@ -347,6 +361,7 @@ struct BrainMapDiagram: View {
             .navigationBarTitleDisplayMode(.inline)
             #endif
     }
+    .environment(AppNavigationModel())
 }
 
 private extension BrainMapGraph {

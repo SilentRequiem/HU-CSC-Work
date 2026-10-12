@@ -628,3 +628,42 @@ When finished, explain:
 8. How macOS and iOS differ.
 9. Limitations.
 10. Good code sections and UI states for assignment report screenshots.
+
+==================================================
+PROMPT 7 - Wikipedia Concept Enrichment (Learn More)
+==================================================
+
+Implement StudyLens's external API enrichment feature using the Wikipedia / MediaWiki API while preserving all existing functionality. Selecting a generated Key Concept should open a concept detail screen with the existing explanation, a Learn More button, loading state, Wikipedia result, source link, and an Add to Notes option. Wikipedia information must be clearly labeled as external ("From Your Notes" vs "From Wikipedia") and must never be merged into the Study Guide, Quiz Me grading, Flashcards, or Brain Map. Only contact Wikipedia when the user asks. Handle offline, API failure, empty results, disambiguation, missing extracts, invalid URLs, and cancellation. Add a simple in-memory cache keyed by normalized concept name. Use URLSession async/await + Codable, no third-party packages, and keep networking out of SwiftUI views (WikipediaService, WikipediaArticle, ConceptEnrichmentViewModel, ConceptDetailView). Reuse AppNavigationModel. Test Mitochondria, Ribosomes, Chloroplast, an ambiguous concept, and a nonsense concept; build for My Mac and an iPhone simulator; check Light and Dark Mode.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude Opus added an optional Wikipedia "Learn More" feature for study-guide concepts.
+
+Created:
+- Models/WikipediaArticle.swift: Codable MediaWiki response, WikipediaArticle, WikipediaLookupResult (article / ambiguous / no results), WikipediaError
+- Models/StudyConcept.swift: the concept value pushed onto navigation paths
+- Services/WikipediaService.swift: actor that builds one generator=search request (search + intro extract + URL + disambiguation flag + short description), maps errors, and caches results in memory for the session
+- ViewModels/ConceptEnrichmentViewModel.swift: idle / loading / loaded / failed states, cancel, match selection, and explicit Add to Notes
+- Views/Study/ConceptDetailView.swift: "From Your Notes" and "From Wikipedia" cards, plus previews for each state
+
+Modified:
+- StudyNote / StoredNote: new NoteSource.wikipedia and optional ExternalSourceInfo (article title + URL), stored as optional SwiftData attributes so existing stores migrate automatically
+- AppNavigationModel: StudyDestination.concept and brainMapPath
+- StudyView: Key Concepts rows open Concept Detail (same look, with a chevron); StudySectionCard made reusable
+- FlashcardsView: Key Concept cards link to Concept Detail
+- BrainMapView / BrainMapDetailPanel: existing stack bound to brainMapPath; "Concept Details & Learn More" on a selected node
+- NoteDetailView / NotesListView: show Wikipedia attribution and link for saved Wikipedia notes
+- project.pbxproj: ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES (macOS sandbox network client entitlement)
+
+Verified:
+- Live API: Mitochondria, Ribosomes (-> Ribosome), Chloroplast returned correct articles; Mercury and Cell were detected as ambiguous; a nonsense concept returned no results; "Light reactions" was flagged as a closest match only
+- Cache hits for normalized names; failures are not cached; cancellation returns to idle without overwriting a newer request
+- Simulated offline, HTTP 503, HTTP 429, timeout, and non-JSON responses all produce readable messages
+- "+" in concept names is percent-encoded (bug found and fixed during testing)
+- Add to Notes creates one .wikipedia note (no duplicates) that round-trips through the SwiftData record with title and URL
+- Builds succeeded with no warnings for My Mac and iPhone 18 Pro Max simulator; the Mac app is signed with com.apple.security.network.client
+- Concept Detail previews checked in Light and Dark Mode
+
+Still needs manual testing in the running app: the full tap-through from a real generated guide, a real offline device, Brain Map push on macOS (inspector) and iOS (panel), and opening the Wikipedia link in Safari.

@@ -22,6 +22,7 @@ struct StudyView: View {
                     case .quizMe: QuizMeScreen()
                     case .flashcards: FlashcardsView()
                     case .chooseNotes: StudySourcePickerView()
+                    case .concept(let concept): ConceptDetailView(concept: concept)
                     }
                 }
         }
@@ -95,16 +96,41 @@ private struct StudyGuideResultView: View {
             StudySectionCard(title: "Key Concepts", systemImage: "lightbulb", tint: .orange) {
                 // Generated arrays are fixed for the life of this view, so offsets are stable IDs.
                 ForEach(Array(analysis.keyConcepts.enumerated()), id: \.offset) { _, concept in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(concept.name)
-                            .font(.subheadline.bold())
-                        Text(concept.explanation)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
+                    // Each concept opens Concept Detail (with the optional Wikipedia Learn More).
+                    // Nothing is fetched until the user asks on that screen.
+                    Button {
+                        navigation.openStudy(.concept(StudyConcept(
+                            name: concept.name,
+                            explanation: concept.explanation,
+                            origin: .keyConcepts
+                        )))
+                    } label: {
+                        HStack(alignment: .center, spacing: 8) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(concept.name)
+                                    .font(.subheadline.bold())
+                                    .foregroundStyle(.primary)
+                                Text(concept.explanation)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                        }
+                        .contentShape(.rect)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .buttonStyle(.plain)
+                    .accessibilityHint("Shows details and an optional Learn More from Wikipedia.")
                 }
+
+                Text("Tap a concept for details and an optional Learn More from Wikipedia.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             StudySectionCard(title: "Practice Questions", systemImage: "questionmark.bubble", tint: .green) {
@@ -208,8 +234,9 @@ private struct PracticeQuestionRow: View {
     }
 }
 
-/// A titled card that groups one section of the study guide.
-private struct StudySectionCard<Content: View>: View {
+/// A titled card that groups one section of the study guide. Also used by `ConceptDetailView`
+/// so concept details look like the rest of the Study tab.
+struct StudySectionCard<Content: View>: View {
     let title: String
     let systemImage: String
     let tint: Color
