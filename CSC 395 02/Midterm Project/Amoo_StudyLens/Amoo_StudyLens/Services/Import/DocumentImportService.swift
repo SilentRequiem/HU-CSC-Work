@@ -38,6 +38,9 @@ nonisolated struct DocumentImportService {
         var document: ImportedDocument
         do {
             document = try await extract(kind: kind, from: url, filename: filename, progress: progress)
+        } catch ImportError.unreadable(_, let reason) {
+            // Office XML parsing doesn't know the file's name; report the real one, not "document".
+            throw ImportError.unreadable(filename: filename, reason: reason)
         } catch let error as ImportError {
             throw error
         } catch is CancellationError {

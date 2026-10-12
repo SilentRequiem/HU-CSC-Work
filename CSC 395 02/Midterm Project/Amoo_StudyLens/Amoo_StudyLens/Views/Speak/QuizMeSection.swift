@@ -26,7 +26,9 @@ struct QuizMeSection: View {
             }
         }
         // A new study guide means new questions; start again from question 1.
-        .onChange(of: studyViewModel.guide?.id) { viewModel.restart() }
+        .onChange(of: studyViewModel.guide?.id, initial: true) {
+            viewModel.showGuide(id: studyViewModel.guide?.id)
+        }
         .task { studyViewModel.refreshAvailability() }
     }
 

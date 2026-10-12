@@ -33,6 +33,14 @@ final class QuizMeViewModel {
     private let evaluator: AnswerEvaluationService
     @ObservationIgnored
     private var evaluationTask: Task<Void, Never>?
+    /// Bumped whenever a pending recording start should be abandoned (switching to Type, moving
+    /// to another question, leaving the screen). Permission prompts can take a while, so the
+    /// microphone must not switch on after the user has already moved on.
+    @ObservationIgnored
+    private var recordingAttempt = 0
+    /// The study guide the current question index belongs to.
+    @ObservationIgnored
+    private var guideID: UUID?
 
     init(
         recognizer: SpeechRecognitionService,
@@ -84,8 +92,18 @@ final class QuizMeViewModel {
         resetAttempt()
     }
 
+    /// Starts again from question 1 only when the guide is different from the one the quiz was
+    /// on. Called on appear as well as on change, so a guide regenerated while Quiz Me was off
+    /// screen (e.g. the Speak sheet was on Dictate) can't leave the index pointing past the end.
+    func showGuide(id newID: UUID?) {
+        guard newID != guideID else { return }
+        guideID = newID
+        restart()
+    }
+
     private func resetAttempt() {
         evaluationTask?.cancel()
+        recordingAttempt += 1
         recognizer.cancel()
         synthesizer.stop()
         answerText = ""
@@ -118,6 +136,7 @@ final class QuizMeViewModel {
     func setInputMethod(_ method: AnswerInputMethod) {
         guard method != inputMethod else { return }
         if method == .typed {
+            recordingAttempt += 1
             recognizer.cancel()
         }
         showError(nil)
@@ -138,6 +157,8 @@ final class QuizMeViewModel {
         resultInputMethod = nil
         showError(nil)
         isStartingRecording = true
+        recordingAttempt += 1
+        let attempt = recordingAttempt
 
         Task {
             defer { isStartingRecording = false }
@@ -151,7 +172,13 @@ final class QuizMeViewModel {
                         self.showError(error)
                     }
                 }
+                // The user switched to Type, changed question, or left while permission was
+                // being requested; don't leave the microphone running with no Stop button.
+                if attempt != recordingAttempt || inputMethod != .spoken {
+                    recognizer.cancel()
+                }
             } catch {
+                guard attempt == recordingAttempt else { return }
                 showError(error)
             }
         }
@@ -165,6 +192,10 @@ final class QuizMeViewModel {
 
     func stopAll() {
         evaluationTask?.cancel()
+        // The cancelled grading task returns early, so clear its spinner here; otherwise Check
+        // Answer would stay disabled when the user comes back to this question.
+        isEvaluating = false
+        recordingAttempt += 1
         recognizer.cancel()
         synthesizer.stop()
     }

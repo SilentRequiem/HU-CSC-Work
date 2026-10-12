@@ -768,3 +768,586 @@ Verified (direct tests with RunCodeSnippet):
 - Previews checked: Notes list (iPhone), Capture at AX 3 in Dark Mode
 
 Still needs manual testing: full tap-through in the running app on Mac and iPhone, relaunch persistence of an edited note, VoiceOver walkthrough, Open Settings links, macOS menu commands, Mac window resizing / full screen, real offline Wikipedia, and denied microphone/speech permissions.
+
+==================================================
+PROMPT 10 - Final StudyLens Audit, Validation, Cleanup, and Submission Readiness
+==================================================
+
+If there is no test file, make a dummy file to test with.
+
+PROMPT 10 - Final StudyLens Audit, Validation, Cleanup, and Submission Readiness
+
+Perform a final comprehensive audit of StudyLens before I prepare the project for submission.
+
+This is a stabilization and documentation pass, not a feature-development prompt.
+
+Do not add major new features.
+Do not redesign the application.
+Do not remove working functionality.
+Do not replace working implementations just because another architecture is possible.
+Prefer small targeted fixes only when you find an actual bug, reliability problem, accessibility issue, or broken integration.
+
+StudyLens currently includes:
+
+CAPTURE
+- Scan Image with Vision OCR
+- Write Note with PencilKit handwriting recognition
+- Speak Note with speech recognition
+- typed input when speaking is unavailable
+- Import File
+- drag-and-drop file importing where supported
+- imported TXT, Markdown, CSV, PDF, DOCX, PPTX, XLSX, and supported image formats
+
+NOTES
+- SwiftData persistence
+- scanned, handwritten, voice, typed, imported, and Wikipedia notes
+- note editing
+- note deletion
+- Clear All
+- multi-selection
+- search
+- source filtering
+- sorting
+- TXT and Markdown export
+- attribution for Wikipedia notes
+
+STUDY
+- source selection:
+  - All Notes
+  - Selected Notes
+  - One Note
+- Foundation Models study-guide generation
+- Summary
+- Key Concepts
+- Practice Questions
+- outdated-study-guide detection
+- regeneration
+- Quiz Me
+- Flashcards
+- Brain Map
+
+QUIZ ME
+- questions generated from the selected study material
+- spoken answers
+- typed answers
+- Correct / Partially Correct / Try Again evaluation
+- Foundation Models grading when available
+- local fallback grading
+- expected-answer reveal
+- text-to-speech question reading
+
+FLASHCARDS
+- Question cards
+- Key Concept cards
+- visual flip interaction
+- Previous / Next
+- Shuffle
+- Restart Deck
+- Know It
+- Review Again
+- review rounds
+- session summary
+- Read Aloud / Auto Read
+- source filtering based on the current generated study guide
+
+BRAIN MAP
+- generated concept graph
+- concept relationships
+- tappable concept details
+- export support
+- Learn More integration
+
+EXTERNAL ENRICHMENT
+- Wikipedia Learn More for Key Concepts
+- accessible from Study, Flashcards, and Brain Map
+- several-meanings handling
+- no-results handling
+- networking/error states
+- session caching
+- Add to Notes
+- Wikipedia attribution
+- Wikipedia content must NOT automatically become study material unless the user explicitly saves it as a note
+
+NAVIGATION
+- centralized AppNavigationModel
+- separate Capture, Notes, Study, and Brain Map tabs
+- Study destinations for Quiz Me, Flashcards, and Concept Detail
+- navigation should not duplicate screens
+- generating a study guide must not unexpectedly open Speak Note
+- leaving Quiz Me or Flashcards should return to Study correctly
+- generated study state should survive normal tab switching
+
+ACCESSIBILITY / PLATFORM SUPPORT
+- macOS and iOS
+- windowed and full-screen Mac layouts
+- reasonable content-width limits on large screens
+- usable iPhone layouts
+- Dynamic Type
+- VoiceOver labels/hints
+- Reduce Motion
+- permission-recovery actions such as Open Settings
+- keyboard shortcuts and menu commands where appropriate on macOS
+
+Your goals for this final pass are:
+
+1. ARCHITECTURE AUDIT
+
+Trace the important state flow through:
+Capture -> Notes -> Study Source -> Study Guide -> Quiz Me / Flashcards / Brain Map.
+
+Confirm there is a clear single source of truth for:
+- saved notes
+- navigation
+- selected study source
+- generated study guide
+- outdated state
+
+Look specifically for duplicated state, stale copied values, unnecessary NavigationStacks, accidental automatic navigation, or cases where one screen can overwrite another screen's state.
+
+Only change architecture if there is a concrete problem.
+
+2. NAVIGATION AUDIT
+
+Review every navigation path.
+
+Verify logically:
+- Capture -> Scan Image -> save -> Notes
+- Capture -> Write Note -> save -> Notes
+- Capture -> Speak Note -> save -> Notes
+- Capture -> Import File -> save -> Notes
+- Notes -> Note Detail -> Back
+- Notes -> Edit -> Save -> Detail
+- Study -> generate -> remain on Study
+- Study -> Quiz Me -> Back -> Study
+- Study -> Flashcards -> Back -> Study
+- Study -> Key Concept -> Concept Detail -> Back
+- Brain Map -> Concept Detail -> Back
+- switching between Capture / Notes / Study / Brain Map does not destroy unrelated state
+
+Check that repeatedly tapping destinations cannot produce duplicate copies of the same screen.
+
+3. PERSISTENCE AUDIT
+
+Confirm SwiftData persistence for every StudyNote source:
+- scan
+- handwriting
+- voice
+- typed
+- imported
+- Wikipedia
+
+Verify that editing preserves:
+- ID
+- source
+- creation date where appropriate
+- imported metadata / Wikipedia attribution where applicable
+
+Check deletion and Clear All behavior.
+
+Confirm changes that affect a generated study guide correctly mark it as outdated.
+
+Do not modify or erase my real saved-note database during automated testing.
+Use isolated/in-memory data for programmatic persistence checks.
+
+4. STUDY SOURCE AUDIT
+
+Verify:
+- All Notes
+- Selected Notes
+- One Note
+
+Confirm only the selected material is sent to Foundation Models.
+
+Verify the source description shown in Study, Quiz Me, Flashcards, and Brain Map stays consistent.
+
+Check what happens when:
+- a selected note is deleted
+- a selected note is edited
+- selected notes become empty
+- all notes are cleared
+
+The app should fail safely and explain what the user needs to do.
+
+5. FOUNDATION MODELS AUDIT
+
+Review every Foundation Models call.
+
+Confirm:
+- prompts are grounded only in the user's selected study material
+- model sessions are not created unnecessarily
+- generation errors are readable
+- unsupported/unavailable model states are handled
+- Retry behavior is sensible
+- existing successful output is not destroyed just because a later regeneration fails
+
+Do not introduce cloud AI or paid AI services.
+
+6. QUIZ ME AUDIT
+
+Verify typed and spoken answers use the same evaluation pipeline.
+
+Check:
+- Correct
+- Partially Correct
+- Try Again
+- Foundation Models grader
+- local fallback grader
+- question navigation
+- expected-answer reveal
+- Read Question Aloud
+- Auto-read
+- microphone permission failures
+- switching from Speak to Type
+
+Make sure Quiz Me can use practice questions generated from any valid Study Source and is not tied specifically to voice notes.
+
+7. FLASHCARDS AUDIT
+
+Verify:
+- Question cards
+- Key Concept cards
+- All Cards / Questions / Key Concepts filtering
+- flip state
+- Next / Previous
+- Shuffle
+- Restart Deck
+- Know It
+- Review Again
+- review round
+- summary calculations
+- Read Aloud
+- Auto Read
+- Reduce Motion
+
+Check edge cases for:
+- only one card
+- only questions
+- only key concepts
+- no cards
+- changing guides
+- outdated guides
+
+Do not change the current visual style unless something is actually broken.
+
+8. BRAIN MAP AUDIT
+
+Verify:
+- all generated concepts can appear
+- relationships render safely
+- selecting nodes works
+- Learn More opens the correct Concept Detail
+- exporting the full map still works
+- empty states are clear
+- outdated-guide state is communicated
+- Reduce Motion is respected where animation exists
+
+9. WIKIPEDIA AUDIT
+
+Confirm the Wikipedia feature remains external enrichment only.
+
+Verify:
+- valid result
+- several meanings
+- no results
+- timeout
+- HTTP error
+- malformed response
+- cancellation
+- session cache
+- Add to Notes
+- duplicate-save protection
+- attribution
+
+Opening cached content must not perform a second network request.
+
+Do not make live Wikipedia requests solely for testing if existing mocks or cached/test paths can verify the same behavior.
+
+10. IMPORT AUDIT
+
+Review supported import formats and their failure behavior:
+
+- TXT
+- Markdown
+- CSV
+- PDF
+- PNG / JPEG / HEIC
+- DOCX
+- PPTX
+- XLSX
+
+Check:
+- text extraction
+- OCR fallback where intended
+- filenames and metadata
+- malformed or unsupported documents
+- cancelled selection
+- drag and drop
+- Try Again
+- security-scoped resource cleanup
+
+Do not add third-party packages.
+
+11. EXPORT AUDIT
+
+Verify:
+- one-note Markdown
+- one-note TXT
+- selected/multiple-note export if supported
+- Brain Map PNG
+- Brain Map Markdown/text representation
+
+Check that exported text preserves useful source information and dates.
+
+Check macOS Save As and normal Apple sharing behavior without introducing custom file-management code unless necessary.
+
+12. ACCESSIBILITY AND LAYOUT AUDIT
+
+Inspect important screens for:
+- normal iPhone size
+- large Dynamic Type
+- Mac window
+- wide/full-screen Mac window
+- Light Mode
+- Dark Mode
+
+Make sure:
+- content does not hug the window edges on Mac
+- content does not become excessively wide
+- buttons remain reachable
+- text is not clipped
+- cards stack instead of overflowing when necessary
+- warning and status colors remain readable
+- controls have useful VoiceOver labels and hints
+- Reduce Motion is respected
+
+Do not redesign the UI.
+
+13. ERROR AND EMPTY-STATE AUDIT
+
+Every important failure should give the user something useful to do.
+
+Look for empty/error states involving:
+- no notes
+- no matching search results
+- no study guide
+- no practice questions
+- no flashcards
+- no Brain Map
+- unavailable Foundation Models
+- failed generation
+- microphone denied
+- speech recognition denied
+- failed import
+- unsupported file
+- Wikipedia offline/error
+- deleted study source
+
+Where reasonable, provide one direct recovery action such as:
+- Try Again
+- Open Settings
+- Import File
+- Capture a Note
+- Back to Study
+- Regenerate
+
+14. BUILD VALIDATION
+
+Build the final project for:
+- My Mac
+- an available iPhone simulator
+
+Resolve new errors and warnings caused by StudyLens code.
+
+Do not spend time modifying unrelated Apple SDK/compiler warnings that are outside the project code.
+
+Report the exact destinations used.
+
+15. TARGETED PROGRAMMATIC TESTING
+
+Use isolated code snippets, mocks, previews, or an in-memory SwiftData store to verify logic where practical.
+
+Do not modify my actual saved data.
+
+Test representative cases for:
+- note query filtering/sorting
+- navigation duplicate prevention
+- note edit persistence
+- outdated-study detection
+- study-source resolution
+- quiz grading fallback
+- flashcard progress math
+- Wikipedia cache behavior
+- import failure handling
+
+Clearly distinguish:
+- directly tested
+- inspected in code
+- requires manual testing
+
+Never claim a UI interaction was tested if you did not actually tap through it.
+
+16. FINAL MANUAL TEST CHECKLIST
+
+Give me a concise final checklist of actions I personally need to test on:
+- Mac
+- iPhone / iPhone simulator where possible
+
+Prioritize tests that cannot be verified reliably by code.
+
+17. REPORT EVIDENCE
+
+Identify the best final screenshots I should capture for my CSC 395 report.
+
+Include representative screenshots for:
+- Capture
+- Notes
+- Study Guide
+- source selection
+- Quiz Me
+- Correct / Partially Correct / Try Again
+- Flashcards
+- Brain Map
+- Wikipedia Learn More
+- Import File
+- export
+- an accessibility or responsive-layout example
+
+Also identify approximately 8-12 especially useful Swift code sections to screenshot.
+
+For each code section, explain in one sentence why it is worth showing.
+
+18. PROJECT INVENTORY
+
+Give me a final organized inventory grouped by:
+- Models
+- Services
+- ViewModels
+- Views
+- Components
+- App/navigation infrastructure
+
+For each important file, give a short description of its responsibility.
+
+Also summarize which Apple frameworks StudyLens now uses and what each one does in this project.
+
+19. AGENTIC CODING LOG
+
+Update AgenticCodingLog.txt with PROMPT 10.
+
+Do not rewrite, delete, renumber, summarize away, or alter PROMPT 1 through PROMPT 9.
+
+The PROMPT 10 entry should include:
+- the exact prompt
+- files inspected
+- files changed
+- bugs found
+- fixes made
+- build/test results
+- remaining manual tests
+- known limitations
+- final application state
+
+After updating the log, print the PROMPT heading sequence so I can verify that PROMPT 1 through PROMPT 10 are all present in order.
+
+20. FINAL RESPONSE
+
+At the end, give me a structured final implementation report containing:
+
+- Final status
+- Builds
+- Architecture status
+- Features confirmed
+- Bugs found and fixed during Prompt 10
+- Files created
+- Files modified
+- Programmatic tests performed
+- What was only inspected
+- Manual testing I still need to do
+- Known limitations
+- Suggested report screenshots
+- Suggested report code screenshots
+- Apple frameworks used
+- Final project inventory
+- AgenticCodingLog status
+
+If something cannot genuinely be verified, say so clearly.
+
+The goal is to finish with the most stable version of the existing StudyLens application possible, not to add more scope.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude Opus completed a stabilization audit. The architecture was kept as is (no redesign, no new features); only concrete bugs were fixed.
+
+Files inspected (directly or by three read-only audit sub-agents):
+- App/navigation: MyApp, ContentView, AppNavigationModel, StudyLensCommands
+- Models: StudyNote, StoredNote, StudySource, StudyAnalysis, StudyConcept, Flashcard, AnswerEvaluation, ImportedFile, NoteListQuery, WikipediaArticle
+- Services: NoteStore, StudyAnalysisService, AnswerEvaluationService, SpeechRecognitionService, SpeechSynthesisService, WikipediaService, ExportService, Import/* (DocumentImportService, OfficeDocumentExtractor, PDFTextExtractor, TabularTextFormatter, XMLTree, ZipArchiveReader)
+- ViewModels: NotesViewModel, StudyViewModel, QuizMeViewModel, FlashcardsViewModel, ConceptEnrichmentViewModel, ImportFileViewModel, ReadAloudViewModel
+- Views: StudyView, StudySourceViews, QuizMeScreen, QuizMeSection, SpeakComponents, Flashcards/*, BrainMap/*, ConceptDetailView, ImportFileView, FileDropZone, ExportSheet, NotesListView, NoteDetailView
+
+Architecture result: single sources of truth confirmed. NotesViewModel (saved notes, written through NoteStore/SwiftData), StudyViewModel (scope, guide, errors; outdated state is computed from the guide's StudySource snapshot, never stored separately), AppNavigationModel (tab, notesPath, studyPath, brainMapPath, activeCapture). One NavigationStack per tab plus one per sheet; no nested duplicates. Generation only writes StudyViewModel, so it cannot open Speak Note or change tabs. One stale-copy problem found (Concept Detail after regeneration, fixed below).
+
+Files created:
+- Diagnostics/StudyLensSelfChecks.swift: DEBUG-only self-check suite (no unit-test target exists, so this is the "dummy test file"). Uses an in-memory SwiftData store, InMemoryNoteStore, a mock URLProtocol (no live Wikipedia), and a temporary folder (deleted afterwards). Never called by the app; not compiled into Release.
+
+Files modified:
+- ViewModels/QuizMeViewModel.swift: stopAll() clears isEvaluating; recordingAttempt counter cancels a recording that finishes starting after the user switched to Type / changed question / left; showGuide(id:) restarts only for a different guide
+- Views/Speak/QuizMeSection.swift: .onChange(of: guide?.id, initial: true) calls showGuide(id:)
+- Services/AnswerEvaluationService.swift: short expected answers ("No", "42", "pH 7") compared word-for-word instead of always "Partially Correct"; hints show whole words ("analysis", not "analysi")
+- Services/Import/OfficeDocumentExtractor.swift: XLSX column-reference overflow guard; DOCX text boxes no longer imported twice (skip mc:Fallback)
+- Services/Import/DocumentImportService.swift: malformed Office XML errors name the real file instead of "document"
+- Services/ExportService.swift: note exports (Markdown and TXT, single and multiple) include "Imported from: <file> (<type · units>)" and "Wikipedia article: <title> – <URL>" from saved metadata
+- Services/WikipediaService.swift: results containing only disambiguation pages return No Results instead of showing the "may refer to" list as an article; User-Agent includes contact URL per Wikimedia policy
+- Views/BrainMap/BrainMapGraph.swift: relationship-name matching uses whole words ("Ion" no longer attaches to "Cellular respiration")
+- Views/BrainMap/BrainMapLayout.swift: edge labels are kept inside the canvas (were clipped in the PNG export / unreachable on screen)
+- ViewModels/AppNavigationModel.swift + ContentView.swift: closeConceptDetails() runs when the guide is replaced or cleared, so Concept Detail never shows the old guide's explanation
+- Services/NoteStore.swift: SwiftDataNoteStore(isStoredInMemoryOnly:) for isolated checks (app still uses the on-disk store)
+
+Bugs found and fixed:
+1. Quiz Me "Checking…" spinner stuck forever (Check Answer disabled) after leaving mid-grade
+2. Local grader could never grade very short expected answers ("Yes" for "No" got Partially Correct)
+3. Grading hint showed chopped words ("analysi, processe")
+4. Microphone could start after the user switched to Type while the permission prompt was open (macOS)
+5. Quiz Me question index could point past a regenerated guide when the Speak sheet was on another mode
+6. Crash: integer overflow on a malformed XLSX cell reference
+7. Malformed DOCX/PPTX/XLSX error said "“document” couldn't be read"
+8. DOCX text boxes duplicated
+9. Exports lost the Wikipedia URL / original file name if the note body was edited
+10. Disambiguation-only Wikipedia search shown as an article and saveable
+11. Brain Map substring matching created wrong edges
+12. Brain Map edge labels clipped at the canvas edge
+13. Stale Concept Detail left on the Brain Map / Study stack after regeneration
+
+Build results:
+- My Mac (macOS 27.0 SDK, arm64): succeeded, 0 errors, 0 warnings
+- iPhone 17 simulator (iOS 27.0): succeeded, 0 errors, 0 warnings
+
+Programmatic tests (RunCodeSnippet running StudyLensSelfChecks.runAll()): 102 passed, 0 failed
+- Note query: sort orders, body/multi-word/accent-insensitive search, source filter, no matches
+- Navigation: duplicate prevention on every stack, pop-back, tab switching keeps stacks, deleted note detail closed, stale concept details closed, generation never opens Capture
+- Persistence (in-memory SwiftData): all 6 sources round-trip; edits keep ID/source/date/import info/Wikipedia attribution; delete; Clear All
+- Outdated detection: edit, delete, new note (All Notes only)
+- Study source: All/Selected/One resolution, pruning, only selected text in model material, source summaries, scope after deletion / Clear All
+- Quiz: Correct / Partially Correct / Try Again, short answers, hint wording, question bounds, guide change, stuck-spinner fix
+- Flashcards: filters, flip-before-rate, pass completion, summary math, review round, restart, one-card, empty deck, cleared guide
+- Wikipedia (mock): valid, cache (1 request for 2 lookups), several meanings, disambiguation-only, no results, HTTP 503, errors not cached, malformed, timeout, offline, cancellation, Add to Notes once, attribution, User-Agent
+- Import (temp files): type detection, unsupported, empty, Windows-1252 text, CSV quoting, corrupt DOCX, malformed XML file name, DOCX text box, XLSX overflow
+- Export: Markdown/TXT metadata, multi-note numbering, file-name sanitizing
+- Brain Map: every concept once, whole-word matching, self-loops/duplicates dropped, finite positions, labels inside canvas (label center checked), single node, outline
+
+Inspected only (not run): Foundation Models generation and grading calls (grounded instructions, one session per guide / per Check tap, readable errors, failed regeneration keeps the old guide), availability states, security-scoped access pairing, picker cancellation, PDF OCR fallback, image import, PNG rendering, ShareLink / Save As, Reduce Motion paths, VoiceOver labels, readable-width layout.
+
+Remaining manual tests: full tap-through on Mac and iPhone; relaunch persistence; VoiceOver walkthrough; largest Dynamic Type; Light/Dark; Mac window resize and full screen; denied microphone/speech + Open Settings; real study-guide generation and model grading on an Apple Intelligence device; live Wikipedia and real offline; PDF/image OCR import; drag and drop on Mac; Brain Map PNG export and Save As / Share.
+
+Known limitations:
+- Foundation Models requires an Apple Intelligence-capable device with it turned on; otherwise study guides are unavailable and Quiz Me uses keyword grading
+- Keyword fallback grading doesn't understand synonyms or negation ("not")
+- Study material is trimmed to about 6,000 characters
+- Generated guides live only for the app session (notes persist; guides don't)
+- Wikipedia: English only, introduction only, session-only cache, accent-insensitive cache key
+- Import: no ZIP64/encrypted Office files, no legacy .doc/.ppt/.xls, very large sheets truncated at 1,000 rows; temporary drop/export copies are left for the system to clean up
+- Very large Brain Maps (~100+ nodes) may be too big to render as PNG (an error is shown)
+
+Final application state: all Prompt 1–9 features intact; 13 bugs fixed; clean builds on My Mac and the iPhone 17 simulator; 102/102 logic self-checks passing.

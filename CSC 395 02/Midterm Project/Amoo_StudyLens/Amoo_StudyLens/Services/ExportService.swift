@@ -185,7 +185,31 @@ enum NoteExporter {
     }
 
     private static func markdownMetadata(for note: StudyNote) -> String {
-        "**Source:** \(note.source.displayName) · **Created:** \(formattedDate(note.createdAt))"
+        var line = "**Source:** \(note.source.displayName) · **Created:** \(formattedDate(note.createdAt))"
+        for (label, value) in originDetails(for: note) {
+            line += "  \n**\(label):** \(value)"
+        }
+        return line
+    }
+
+    /// Where an imported or Wikipedia note came from. Exported from the note's saved metadata, so
+    /// the original file name and the Wikipedia link survive even if the user edited the body.
+    private static func originDetails(for note: StudyNote) -> [(label: String, value: String)] {
+        var details: [(label: String, value: String)] = []
+        if let info = note.importInfo {
+            details.append(("Imported from", "\(info.filename) (\(info.summary))"))
+        }
+        if let external = note.externalSource {
+            let link = external.url.map { " – \($0.absoluteString)" } ?? ""
+            details.append(("Wikipedia article", external.articleTitle + link))
+        }
+        return details
+    }
+
+    private static func plainTextMetadata(for note: StudyNote) -> String {
+        (["Source: \(note.source.displayName)", "Created: \(formattedDate(note.createdAt))"]
+            + originDetails(for: note).map { "\($0.label): \($0.value)" })
+            .joined(separator: "\n")
     }
 
     // MARK: Plain text
@@ -195,8 +219,7 @@ enum NoteExporter {
             return """
                 \(underlined(displayTitle(of: note), with: "="))
 
-                Source: \(note.source.displayName)
-                Created: \(formattedDate(note.createdAt))
+                \(plainTextMetadata(for: note))
 
                 \(body(of: note))
 
@@ -212,8 +235,7 @@ enum NoteExporter {
             lines += [
                 "",
                 underlined("Note \(index + 1) of \(notes.count): \(displayTitle(of: note))", with: "-"),
-                "Source: \(note.source.displayName)",
-                "Created: \(formattedDate(note.createdAt))",
+                plainTextMetadata(for: note),
                 "",
                 body(of: note),
                 ""

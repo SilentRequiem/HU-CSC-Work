@@ -117,6 +117,18 @@ final class AppNavigationModel {
         Self.push(concept, onto: &brainMapPath)
     }
 
+    /// Closes Concept Detail screens after the study guide is replaced or cleared. They show a
+    /// copy of the old guide's explanation, so leaving them open would present stale material.
+    /// Quiz Me and Flashcards stay open; they read the shared guide and refresh themselves.
+    func closeConceptDetails() {
+        brainMapPath.removeAll()
+        if let index = studyPath.firstIndex(where: {
+            if case .concept = $0 { true } else { false }
+        }) {
+            studyPath.removeSubrange(index...)
+        }
+    }
+
     // MARK: Capture
 
     func presentCapture(_ option: CaptureOption) {

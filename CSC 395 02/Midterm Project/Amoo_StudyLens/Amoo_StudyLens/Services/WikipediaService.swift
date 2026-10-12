@@ -16,7 +16,8 @@ actor WikipediaService {
 
     /// Wikimedia asks API clients to identify themselves with a descriptive User-Agent.
     /// See https://meta.wikimedia.org/wiki/User-Agent_policy
-    private nonisolated static let userAgent = "StudyLens/1.0 (CSC 395 student study app; Swift URLSession)"
+    /// The policy asks for contact information, so the project's public repository is included.
+    private nonisolated static let userAgent = "StudyLens/1.0 (https://github.com/SilentRequiem/HU-CSC-Work; CSC 395 student study app) URLSession"
     /// How many search results to fetch: the best match plus a few alternatives.
     private nonisolated static let resultLimit = 6
     /// CirrusSearch rejects search strings longer than 300 characters.
@@ -201,7 +202,12 @@ actor WikipediaService {
         }
 
         let realArticles = articles.filter { !$0.isDisambiguation }
-        if best.isDisambiguation, !realArticles.isEmpty {
+        if best.isDisambiguation {
+            // Only "may refer to…" pages came back: there is no article to summarize or save as
+            // a note, so report no match instead of showing the disambiguation list as an article.
+            guard !realArticles.isEmpty else {
+                return WikipediaLookupResult(concept: concept, outcome: .noResults)
+            }
             return WikipediaLookupResult(concept: concept, outcome: .ambiguous(options: realArticles))
         }
 

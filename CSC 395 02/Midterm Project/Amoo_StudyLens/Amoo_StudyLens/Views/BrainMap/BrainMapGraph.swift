@@ -76,9 +76,14 @@ struct BrainMapGraph: Equatable {
             if let exact = idsByKey[key] { return exact }
 
             // The model sometimes shortens or extends a name ("Cell" vs. "The cell membrane").
-            // Accept a containment match only when exactly one node qualifies.
+            // Accept a containment match only when exactly one node qualifies. Whole words are
+            // compared, so "Ion" doesn't attach to "Cellular respiration" through "respirat-ion".
             if key.count >= 3 {
-                let matches = idsByKey.filter { $0.key.contains(key) || key.contains($0.key) }
+                let words = Set(key.split(separator: " "))
+                let matches = idsByKey.filter {
+                    let nodeWords = Set($0.key.split(separator: " "))
+                    return words.isSubset(of: nodeWords) || nodeWords.isSubset(of: words)
+                }
                 if matches.count == 1, let match = matches.first {
                     return match.value
                 }

@@ -108,8 +108,15 @@ struct AnswerEvaluationService {
     /// Compares the important words of the expected answer with the student's answer.
     /// Less forgiving than the model about synonyms, but works on every device.
     static func localEvaluation(answer: String, expectedAnswer: String) -> AnswerEvaluationResult {
-        let expected = keywords(in: expectedAnswer)
-        let spoken = keywords(in: answer)
+        var expected = keywords(in: expectedAnswer)
+        var spoken = keywords(in: answer)
+
+        // Very short expected answers ("No", "pH 7", "42") have no long content words, so compare
+        // every word instead of reporting that the answer can't be checked.
+        if expected.isEmpty {
+            expected = keywords(in: expectedAnswer, keepingShortWords: true)
+            spoken = keywords(in: answer, keepingShortWords: true)
+        }
 
         guard !expected.isEmpty else {
             return AnswerEvaluationResult(
@@ -119,7 +126,7 @@ struct AnswerEvaluationService {
             )
         }
 
-        let matched = expected.intersection(spoken)
+        let matched = expected.keys.filter { spoken[$0] != nil }
         let coverage = Double(matched.count) / Double(expected.count)
 
         let verdict: AnswerVerdict
@@ -131,7 +138,8 @@ struct AnswerEvaluationService {
             explanation = "Your answer includes the key ideas from the study guide."
         case 0.3..<0.6:
             verdict = .partiallyCorrect
-            let missing = expected.subtracting(spoken).sorted().prefix(3).joined(separator: ", ")
+            let missing = expected.keys.filter { spoken[$0] == nil }.sorted().prefix(3)
+                .compactMap { expected[$0] }.joined(separator: ", ")
             explanation = "You covered part of the answer. Try also mentioning: \(missing)."
         default:
             verdict = .tryAgain
@@ -141,14 +149,18 @@ struct AnswerEvaluationService {
     }
 
     /// Lowercased content words with very common words removed and simple plurals folded.
-    private static func keywords(in text: String) -> Set<String> {
+    /// Keys are the folded forms used for matching; values are the words as written, which is
+    /// what the "Try also mentioning" hint shows (so it never displays a chopped word like "analysi").
+    private static func keywords(in text: String, keepingShortWords: Bool = false) -> [String: String] {
         let words = text.lowercased()
             .components(separatedBy: CharacterSet.alphanumerics.inverted)
-            .filter { $0.count > 2 && !stopWords.contains($0) }
-            .map { word in
-                word.count > 4 && word.hasSuffix("s") && !word.hasSuffix("ss") ? String(word.dropLast()) : word
-            }
-        return Set(words)
+            .filter { keepingShortWords ? !$0.isEmpty : $0.count > 2 && !stopWords.contains($0) }
+        var keywords: [String: String] = [:]
+        for word in words {
+            let folded = word.count > 4 && word.hasSuffix("s") && !word.hasSuffix("ss") ? String(word.dropLast()) : word
+            keywords[folded] = keywords[folded] ?? word
+        }
+        return keywords
     }
 
     private static let stopWords: Set<String> = [

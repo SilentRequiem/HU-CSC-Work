@@ -47,6 +47,7 @@ struct ContentView: View {
         }
         .onChange(of: studyViewModel.guide?.id) {
             studyViewModel.reconcile(with: notesViewModel.notes)
+            navigation.closeConceptDetails()
         }
         // Lets the app's menu commands (macOS menu bar, iPad keyboard) reach this window's navigation.
         .focusedSceneValue(\.appNavigation, navigation)

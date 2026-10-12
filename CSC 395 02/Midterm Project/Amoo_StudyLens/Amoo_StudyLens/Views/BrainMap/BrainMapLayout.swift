@@ -86,7 +86,13 @@ struct BrainMapLayout {
             )
             if !edge.label.isEmpty {
                 let labelSize = Self.estimatedLabelSize(for: edge.label)
-                geometry.labelPoint = Self.labelPoint(for: geometry, labelSize: labelSize, center: center, avoiding: occupied)
+                geometry.labelPoint = Self.labelPoint(
+                    for: geometry,
+                    labelSize: labelSize,
+                    center: center,
+                    avoiding: occupied,
+                    within: CGRect(origin: .zero, size: canvasSize)
+                )
                 occupied.append(CGRect(center: geometry.labelPoint, size: labelSize))
             }
             edgeLines[edge.id] = geometry
@@ -297,7 +303,8 @@ struct BrainMapLayout {
         for geometry: BrainMapLineGeometry,
         labelSize: CGSize,
         center: CGPoint,
-        avoiding occupied: [CGRect]
+        avoiding occupied: [CGRect],
+        within bounds: CGRect
     ) -> CGPoint {
         func point(at t: CGFloat) -> CGPoint {
             quadraticPoint(geometry.start, geometry.control, geometry.end, t)
@@ -322,6 +329,17 @@ struct BrainMapLayout {
         for distance in distances {
             candidates.append(mid + perpendicular * distance)
             candidates.append(mid - perpendicular * distance)
+        }
+
+        // The canvas is sized for the nodes before labels are placed, so a label pushed beside an
+        // outer line could hang past the edge (clipped on screen and in the PNG export). Keep every
+        // candidate's whole label inside the canvas.
+        let halfWidth = labelSize.width / 2
+        candidates = candidates.map { candidate in
+            CGPoint(
+                x: min(max(candidate.x, bounds.minX + halfWidth), bounds.maxX - halfWidth),
+                y: min(max(candidate.y, bounds.minY + halfLabel), bounds.maxY - halfLabel)
+            )
         }
 
         let gap: CGFloat = 4

@@ -81,7 +81,9 @@ nonisolated enum OfficeDocumentExtractor {
             case "t": result += child.text
             case "tab": result += "\t"
             case "br", "cr": result += "\n"
-            case "del", "pPr", "rPr", "instrText", "delText": continue
+            // `Fallback` is Word's second copy of a text box (for older readers); the `Choice`
+            // copy is already read, so skipping it keeps text-box text from appearing twice.
+            case "del", "pPr", "rPr", "instrText", "delText", "Fallback": continue
             default: result += wordRunText(child)
             }
         }
@@ -361,6 +363,9 @@ nonisolated enum OfficeDocumentExtractor {
         for scalar in reference.unicodeScalars {
             guard (65...90).contains(scalar.value) || (97...122).contains(scalar.value) else { break }
             index = index * 26 + Int((scalar.value & 0xDF) - 64)
+            // A malformed reference ("AAAAAAAAAAAAAA1") would overflow Int; anything past the
+            // column limit is skipped by the caller anyway.
+            if index > maxColumns { return maxColumns }
         }
         return max(index - 1, 0)
     }

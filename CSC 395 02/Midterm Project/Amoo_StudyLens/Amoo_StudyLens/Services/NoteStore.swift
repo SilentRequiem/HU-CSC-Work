@@ -33,8 +33,10 @@ final class SwiftDataNoteStore: NoteStore {
     private var context: ModelContext { container.mainContext }
 
     /// Opens (or creates) the on-disk note store in the app's sandboxed Application Support folder.
-    init() throws {
-        let configuration = ModelConfiguration("StudyLensNotes")
+    /// `isStoredInMemoryOnly` gives checks and previews a throwaway store that never touches the
+    /// user's saved notes.
+    init(isStoredInMemoryOnly: Bool = false) throws {
+        let configuration = ModelConfiguration("StudyLensNotes", isStoredInMemoryOnly: isStoredInMemoryOnly)
         container = try ModelContainer(for: StoredNote.self, configurations: configuration)
     }
 
