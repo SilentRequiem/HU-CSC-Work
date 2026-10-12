@@ -49,6 +49,30 @@ nonisolated enum SpeechRecognitionError: LocalizedError, Equatable {
             "Speech recognition stopped unexpectedly. Please try recording again."
         }
     }
+
+    /// The privacy setting that fixes this error, when the user can fix it in Settings.
+    var settingsLink: PrivacySettingsLink? {
+        switch self {
+        case .microphoneDenied: .microphone
+        case .speechRecognitionDenied: .speechRecognition
+        default: nil
+        }
+    }
+
+    /// True when the microphone itself can't be used, so typing is the practical alternative.
+    var suggestsTyping: Bool {
+        switch self {
+        case .microphoneDenied, .speechRecognitionDenied, .speechRecognitionRestricted,
+             .recognizerUnavailable, .microphoneUnavailable: true
+        case .noSpeechDetected, .recognitionFailed: false
+        }
+    }
+}
+
+/// A privacy permission StudyLens can send the user to Settings to grant.
+nonisolated enum PrivacySettingsLink: Equatable {
+    case microphone
+    case speechRecognition
 }
 
 /// Lets the audio-thread tap hold the recognition request. Apple designed

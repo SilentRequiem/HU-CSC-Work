@@ -28,6 +28,9 @@ final class StudyViewModel {
     private(set) var isGenerating = false
     private(set) var guide: GeneratedStudyGuide?
     private(set) var errorMessage: String?
+    /// True when `errorMessage` came from a failed model request, so trying again may succeed
+    /// (as opposed to "choose at least one note", which needs a different fix).
+    private(set) var canRetryAfterError = false
     /// The study material the user has chosen for the *next* generation. Changing it never
     /// discards the current guide; the guide keeps describing its own `source`.
     var scope: StudyScope = .allNotes {
@@ -182,6 +185,7 @@ final class StudyViewModel {
         refreshAvailability()
         guard availability == .available else { return }
 
+        canRetryAfterError = false
         let notes = scope.resolve(in: allNotes)
         guard !notes.isEmpty else {
             errorMessage = scope.kind == .selectedNotes
@@ -213,6 +217,7 @@ final class StudyViewModel {
             return
         } catch {
             errorMessage = error.localizedDescription
+            canRetryAfterError = true
             // The model may have become unavailable mid-request; update the screen if so.
             refreshAvailability()
         }

@@ -32,6 +32,8 @@ struct RecordButton: View {
             .buttonStyle(.plain)
             .disabled(isStarting)
             .accessibilityLabel(isRecording ? stopTitle : startTitle)
+            .accessibilityHint(isRecording ? "Stops the microphone." : "Starts listening with the microphone.")
+            .accessibilityValue(isStarting ? "Starting" : (isRecording ? "Recording" : ""))
 
             Text(isRecording ? stopTitle : startTitle)
                 .font(.subheadline.weight(.semibold))
@@ -48,11 +50,14 @@ struct RecordButton: View {
 
 /// "Listening…" label with an animated waveform, shown only while the microphone is live.
 struct RecordingIndicator: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         Label("Listening…", systemImage: "waveform")
             .font(.footnote.weight(.semibold))
             .foregroundStyle(.red)
-            .symbolEffect(.variableColor.iterative, options: .repeating)
+            // The "Listening…" text already shows the state, so Reduce Motion can drop the pulse.
+            .symbolEffect(.variableColor.iterative, options: .repeating, isActive: !reduceMotion)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(.red.opacity(0.12), in: .capsule)
@@ -83,7 +88,7 @@ struct SpeakCard<Content: View>: View {
 struct SpeakMessageLabel: View {
     let message: String
     var systemImage = "exclamationmark.triangle"
-    var tint: Color = .orange
+    var tint: Color = .studyLensWarning
 
     var body: some View {
         Label(message, systemImage: systemImage)
@@ -91,6 +96,34 @@ struct SpeakMessageLabel: View {
             .foregroundStyle(tint)
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+/// A speech or microphone error plus the practical next step: Open Settings when a permission
+/// was denied, and (in Quiz Me) Type Instead when the microphone can't be used at all.
+struct SpeechErrorView: View {
+    let message: String
+    let error: SpeechRecognitionError?
+    /// When set and the error means the microphone can't be used, shows a Type Instead button.
+    var onTypeInstead: (() -> Void)?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            SpeakMessageLabel(message: message)
+
+            let showsTyping = onTypeInstead != nil && error?.suggestsTyping == true
+            if error?.settingsLink != nil || showsTyping {
+                HStack(spacing: 10) {
+                    if let link = error?.settingsLink {
+                        OpenSettingsButton(link: link)
+                    }
+                    if showsTyping, let onTypeInstead {
+                        Button("Type Instead", systemImage: "keyboard", action: onTypeInstead)
+                            .buttonStyle(.bordered)
+                    }
+                }
+            }
+        }
     }
 }
 

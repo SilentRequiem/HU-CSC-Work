@@ -99,12 +99,15 @@ struct ReadAloudSection: View {
         SpeakCard(title: "Speed", systemImage: "gauge.with.dots.needle.50percent") {
             HStack {
                 Image(systemName: "tortoise.fill").foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
                 Slider(
                     value: $viewModel.rate,
                     in: SpeechSynthesisService.minimumRate...SpeechSynthesisService.maximumRate
                 )
                 .tint(.orange)
+                .accessibilityLabel("Reading speed")
                 Image(systemName: "hare.fill").foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
             }
             Text(viewModel.isSpeaking ? "The new speed applies when you tap Restart." : "Adjust how fast StudyLens reads.")
                 .font(.footnote)

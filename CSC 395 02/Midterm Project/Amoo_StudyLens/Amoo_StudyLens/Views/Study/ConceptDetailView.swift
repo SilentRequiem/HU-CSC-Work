@@ -33,6 +33,9 @@ struct ConceptDetailView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        // A concept already looked up this session (from Key Concepts, Flashcards, or the Brain Map)
+        // reappears from the in-memory cache; no request is made on appear.
+        .task { await viewModel.restoreCachedResult() }
         // Leaving the screen cancels an in-flight search; nothing is left running in the background.
         .onDisappear { viewModel.cancel(userInitiated: false) }
     }
@@ -142,7 +145,7 @@ struct ConceptDetailView: View {
         VStack(alignment: .leading, spacing: 12) {
             Label(error.localizedDescription, systemImage: error == .offline ? "wifi.exclamationmark" : "exclamationmark.triangle")
                 .font(.subheadline)
-                .foregroundStyle(.orange)
+                .foregroundStyle(Color.studyLensWarning)
                 .fixedSize(horizontal: false, vertical: true)
 
             Text("Your notes, study guide, Quiz Me, Flashcards, and Brain Map keep working without Wikipedia.")

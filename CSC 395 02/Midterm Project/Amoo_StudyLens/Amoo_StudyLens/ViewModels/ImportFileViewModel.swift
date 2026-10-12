@@ -36,8 +36,22 @@ final class ImportFileViewModel {
     /// Distinguishes progress callbacks from a file the user has since replaced.
     @ObservationIgnored
     private var importID = UUID()
+    /// The last supported file that was imported, so a failed extraction can be retried.
+    private(set) var lastSupportedURL: URL?
 
     var isExtracting: Bool { phase == .extracting }
+
+    /// True when extracting a supported file failed and trying the same file again makes sense.
+    var canRetry: Bool {
+        if case .failed = phase { return lastSupportedURL != nil }
+        return false
+    }
+
+    /// Re-runs the import of the file that just failed.
+    func retry() {
+        guard let url = lastSupportedURL else { return }
+        importFile(at: url)
+    }
 
     var canSave: Bool {
         phase == .review && !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -59,9 +73,11 @@ final class ImportFileViewModel {
 
         // Unsupported files are rejected up front with a clear message, never silently ignored.
         guard detectedKind != nil else {
+            lastSupportedURL = nil
             phase = .failed(ImportError.unsupportedFile(filename: url.lastPathComponent).localizedDescription)
             return
         }
+        lastSupportedURL = url
         phase = .extracting
         title = Self.defaultTitle(for: url)
 
@@ -102,6 +118,8 @@ final class ImportFileViewModel {
     /// Shows a problem (bad drop, file-picker error) in place of the current import.
     func reportFailure(_ message: String) {
         importTask?.cancel()
+        // A bad drop or picker error isn't about the previous file, so there's nothing to retry.
+        lastSupportedURL = nil
         phase = .failed(message)
     }
 

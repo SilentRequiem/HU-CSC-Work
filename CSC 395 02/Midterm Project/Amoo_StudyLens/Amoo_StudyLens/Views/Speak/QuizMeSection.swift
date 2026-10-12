@@ -7,6 +7,8 @@ import SwiftUI
 /// It never requests a new guide on its own; it reuses `StudyViewModel.guide`.
 struct QuizMeSection: View {
     @Bindable var viewModel: QuizMeViewModel
+    /// Set when Quiz Me is pushed on the Study stack, so empty states can offer Back to Study.
+    var onBackToStudy: (() -> Void)?
     @Environment(NotesViewModel.self) private var notesViewModel
     @Environment(StudyViewModel.self) private var studyViewModel
     @FocusState private var isTypingFocused: Bool
@@ -115,7 +117,10 @@ struct QuizMeSection: View {
             }
 
             if let errorMessage = viewModel.errorMessage {
-                SpeakMessageLabel(message: errorMessage)
+                SpeechErrorView(message: errorMessage, error: viewModel.speechError) {
+                    viewModel.setInputMethod(.typed)
+                    isTypingFocused = true
+                }
             }
 
             TextField(
@@ -250,12 +255,23 @@ struct QuizMeSection: View {
 
     @ViewBuilder
     private var noGuideCard: some View {
-        if notesViewModel.notes.isEmpty {
-            ContentUnavailableView(
-                "No Practice Questions Yet",
-                systemImage: "questionmark.bubble",
-                description: Text("Save some notes first — scanned, handwritten, or spoken. StudyLens turns them into a study guide with practice questions you can answer out loud or by typing.")
-            )
+        if let guide = studyViewModel.guide, guide.analysis.practiceQuestions.isEmpty {
+            // Rare, but possible if the model returned a guide without questions.
+            ContentUnavailableView {
+                Label("No Practice Questions", systemImage: "questionmark.bubble")
+            } description: {
+                Text("This study guide doesn't include any practice questions. Regenerate it on the Study tab to try again.")
+            } actions: {
+                backToStudyButton
+            }
+        } else if notesViewModel.notes.isEmpty {
+            ContentUnavailableView {
+                Label("No Practice Questions Yet", systemImage: "questionmark.bubble")
+            } description: {
+                Text("Save some notes first — scanned, handwritten, spoken, or imported. StudyLens turns them into a study guide with practice questions you can answer out loud or by typing.")
+            } actions: {
+                backToStudyButton
+            }
         } else if case let .unavailable(title, message) = studyViewModel.availability {
             ContentUnavailableView {
                 Label(title, systemImage: "apple.intelligence")
@@ -294,6 +310,14 @@ struct QuizMeSection: View {
                 .tint(.purple)
                 .disabled(studyViewModel.isGenerating || studyViewModel.scope.resolve(in: notesViewModel.notes).isEmpty)
             }
+        }
+    }
+
+    @ViewBuilder
+    private var backToStudyButton: some View {
+        if let onBackToStudy {
+            Button("Back to Study", systemImage: "chevron.backward", action: onBackToStudy)
+                .buttonStyle(.bordered)
         }
     }
 

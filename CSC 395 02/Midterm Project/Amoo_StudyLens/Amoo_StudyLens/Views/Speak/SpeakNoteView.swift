@@ -24,6 +24,7 @@ struct SpeakNoteView: View {
                     }
                 }
                 .padding()
+                .readableContentWidth(720)
             }
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Speak Note")
@@ -47,6 +48,7 @@ struct SpeakNoteView: View {
                 }
             }
         }
+        .studyLensSheetFrame()
         // Never leave the microphone or speech running after the sheet closes.
         .onDisappear { viewModel.stopAudio() }
     }
@@ -77,6 +79,7 @@ struct SpeakNoteView: View {
                 .foregroundStyle(.white)
                 .frame(width: 48, height: 48)
                 .background(Color.orange.gradient, in: .rect(cornerRadius: 12))
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(viewModel.mode.headline)
                     .font(.title3.bold())

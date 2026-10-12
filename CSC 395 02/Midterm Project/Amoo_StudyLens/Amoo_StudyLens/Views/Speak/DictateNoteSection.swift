@@ -15,7 +15,7 @@ struct DictateNoteSection: View {
                 .padding(.vertical, 8)
 
                 if let errorMessage = viewModel.errorMessage {
-                    SpeakMessageLabel(message: errorMessage)
+                    SpeechErrorView(message: errorMessage, error: viewModel.speechError)
                 }
 
                 Text(viewModel.transcript.isEmpty

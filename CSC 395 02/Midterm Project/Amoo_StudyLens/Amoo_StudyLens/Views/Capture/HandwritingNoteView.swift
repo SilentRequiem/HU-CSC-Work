@@ -25,6 +25,7 @@ struct HandwritingNoteView: View {
                     }
                 }
                 .padding()
+                .readableContentWidth(900)
             }
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Write Note")
@@ -46,6 +47,7 @@ struct HandwritingNoteView: View {
                 }
             }
         }
+        .studyLensSheetFrame()
     }
 
     // MARK: - Input (canvas or dropped image)
@@ -200,7 +202,7 @@ struct HandwritingNoteView: View {
             } else {
                 if let errorMessage = viewModel.errorMessage {
                     Label(errorMessage, systemImage: "exclamationmark.triangle")
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(Color.studyLensWarning)
                 }
 
                 if !viewModel.recognizedText.isEmpty {

@@ -667,3 +667,104 @@ Verified:
 - Concept Detail previews checked in Light and Dark Mode
 
 Still needs manual testing in the running app: the full tap-through from a real generated guide, a real offline device, Brain Map push on macOS (inspector) and iOS (panel), and opening the Wikipedia link in Safari.
+
+==================================================
+PROMPT 8 - External API Enrichment: Wikipedia "Learn More" for Key Concepts
+==================================================
+
+Add external API enrichment to StudyLens using the Wikipedia / MediaWiki API while preserving all existing functionality. Key Concepts should offer a Learn More option that looks the concept up on Wikipedia, from the Study guide, from Key Concept flashcards, and from Brain Map concept nodes. Keep networking and JSON decoding in a dedicated service, handle concepts with several meanings, no results, and network errors, cache results for the session, and let the user add an article to their notes with clear Wikipedia attribution. Wikipedia data must never enter the study guide automatically; it can only become study material if the user explicitly saves it as a note. Build for macOS and an iPhone simulator and report testing results and limitations.
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude Opus added Wikipedia "Learn More" enrichment for StudyLens Key Concepts.
+
+What was added:
+- Wikipedia external API enrichment: a Concept Detail screen with two clearly labeled cards, "From Your Notes" (the on-device explanation) and "From Wikipedia" (external information)
+- Learn More access from three places: Study tab Key Concepts, Key Concept flashcards (pushed above the deck so Back returns to the session), and Brain Map concept nodes (pushed on the Brain Map tab's own stack)
+- WikipediaService: an actor that sends one MediaWiki Action API request (search plus intro extract, page URL, short description, and disambiguation flag) with URLSession async/await, and decodes the JSON with Codable
+- Ambiguity handling: when the top result is a disambiguation page, the user picks the matching meaning from a list; a close-but-not-exact match is labeled as the closest match, with other matches available
+- No-results and error states: "No Wikipedia Article Found", plus readable messages for offline, timeout, HTTP errors, and unreadable responses, each with Try Again; cancelling a search returns to the idle state
+- Session-only caching: an in-memory cache keyed by the normalized concept name (case-, accent-, and spacing-insensitive); only successful lookups are cached, so Try Again after an error really retries; nothing is written to disk
+- Add to Notes with Wikipedia attribution: saves the article summary as a note with the article title, link, and a CC BY-SA attribution block, and won't save the same article twice
+- A new Wikipedia note source (NoteSource.wikipedia) with ExternalSourceInfo (article title and URL), stored as optional SwiftData attributes so existing saved notes migrate automatically
+- Rule preserved: Wikipedia data does not enter the Summary, Key Concepts, Practice Questions, Quiz Me grading, Flashcards, or Brain Map unless the user explicitly saves it as a note and then generates a guide that includes that note; Wikipedia is only contacted when the user taps Learn More
+
+Bug found and fixed during testing:
+- URL encoding: URLComponents left "+" unencoded, so a concept such as "Na+/K+ pump" was searched as "Na /K  pump"; "+" is now percent-encoded as %2B
+
+Build results:
+- Clean builds with no errors or warnings for My Mac (macOS) and the iPhone simulator
+
+Manual testing recommendations:
+- Generate a real study guide and tap through Learn More from Key Concepts, a Key Concept flashcard, and a Brain Map node (macOS inspector and iOS bottom panel)
+- Try a clear concept (Mitochondria), an ambiguous one (Mercury), and a nonsense term
+- Turn off Wi-Fi to see the offline state, then Try Again after reconnecting
+- Add an article to Notes, confirm it appears in the Notes tab marked Wikipedia, and open its original article link
+- Reopen the same concept to confirm the cached result is reused
+
+Known limitations:
+- English Wikipedia only
+- Only the article's introduction is shown and saved, not the full article
+- The cache lasts only for the current app session
+- Wikipedia's search ranking can pick a related article rather than the exact concept; the user may need to choose from Other Matches
+- Wikipedia is volunteer-written, so important facts should be checked against course materials
+
+==================================================
+PROMPT 9 - Final Polish, Reliability, Accessibility, and Organization Pass
+==================================================
+
+Perform a final polish, reliability, accessibility, and organization pass on StudyLens without removing or breaking any existing functionality. Audit navigation for every route (Capture, Notes, Study, Brain Map, Scan Image, Write Note, Speak Note, Import File, Note Detail, Study Guide, Quiz Me, Flashcards, Brain Map concept details, Wikipedia Learn More). Add Notes search, source filtering, sorting, note count, and a filtered empty state while keeping selection, deletion, Clear All, export, and Study These Notes working. Review empty, loading, and error states so nothing fails silently and each offers a next action. Add or verify VoiceOver labels, hints, Dynamic Type, contrast, Reduce Motion, and macOS keyboard shortcuts. Audit UI consistency, macOS vs iPhone layout, data safety (SwiftData persistence, edits, deletes, Clear All), and duplicate work (Foundation Models, Wikipedia, OCR, regeneration, SwiftData writes). Build for My Mac and an iPhone simulator, test real logic where practical, and document as PROMPT 9. (Follow-up from user: keep padding right in Mac window mode, full screen, and on mobile.)
+
+--------------------------------------------------
+AGENT RESULT
+--------------------------------------------------
+
+Claude Opus completed a polish pass that keeps the existing architecture (AppNavigationModel, shared NotesViewModel / StudyViewModel) and visual identity.
+
+Created:
+- Models/NoteListQuery.swift: display-only search (title + body, multi-word, case/accent-insensitive), source filter, sort (newest / oldest / title), and count text
+- Views/Components/StudyLensComponents.swift: studyLensSheetFrame() (usable Mac sheet size), readableContentWidth() (padding kept at every width, centered on wide windows), Color.studyLensWarning (contrast-safe warning text), OpenSettingsButton, StatusMessageView (message + Retry/Try Again)
+- Views/Components/StudyLensCommands.swift: macOS menu bar / iPad keyboard commands (Import File… Cmd-O, Scan Image… Shift-Cmd-N, Write/Speak Note…, Go menu Cmd-1…4)
+
+Modified:
+- AppNavigationModel: notesPath (Note Detail by note ID), show(_:), openNote/closeNote/forgetDeletedNotes, beginCapture(_:), and one shared push rule for every stack (an existing screen is popped back to, never duplicated)
+- NotesViewModel: note(withID:), update(_:) (no disk write when nothing changed)
+- NotesListView: search, Filter & Sort menu, note count header, Clear Filters, No Matching Notes state, No Notes Yet actions, Study / Export Shown Notes, selection limited to visible notes, row VoiceOver label with source in words
+- NoteDetailView: looks the note up by ID, Edit sheet (title/text; source, date, import and Wikipedia attribution preserved), outdated-guide notice, Note Deleted state, readable width
+- ContentView / MyApp: prune deleted notes from the Notes stack, publish navigation for commands, register commands
+- StudyView / StudyViewModel: Try Again after a model failure (canRetryAfterError), empty-state actions, "not generated yet" hint, readable width
+- QuizMeSection / QuizMeScreen: Back to Study, "guide has no practice questions" state, Open Settings / Type Instead on speech errors
+- DictateNoteSection, DictateNoteViewModel, QuizMeViewModel, SpeechRecognitionService: keep the typed SpeechRecognitionError (settingsLink, suggestsTyping) so permission errors offer Open Settings
+- SpeakComponents: SpeechErrorView, record button hint/value, Reduce Motion for the Listening pulse
+- ImportFileViewModel / ImportFileView: Try Again for supported files that failed to extract
+- ConceptEnrichmentViewModel / ConceptDetailView: a concept looked up earlier this session reappears from the existing session cache on open (no request)
+- FlashcardsView: Reduce Motion-aware flip/navigation animations, VoiceOver "Know It" / "Review Again" actions on the card
+- BrainMapView: empty-state actions (Capture a Note / Go to Study), Reduce Motion panel transition, Click vs Tap hint per platform
+- CaptureView / CaptureOptionCard: scaled icon, stacked layout at accessibility text sizes, single VoiceOver stop with hint, readable width
+- ScanNoteView, HandwritingNoteView, SpeakNoteView: Mac sheet sizing; readable widths
+- ReadAloudSection: "Reading speed" slider label
+- Warning text in several views switched from system orange to Color.studyLensWarning
+
+Bugs found and fixed:
+- Scan Image, Write Note, and Speak Note sheets had no minimum size on macOS (Import File did)
+- Notes were pushed by value, so Note Detail would show a stale copy after an edit and could linger after deletion
+- Duplicate protection only checked the top of each stack
+- Speech permission errors gave no Open Settings action; a missing microphone gave no typing alternative in Quiz Me
+- Import extraction failures and study-guide generation failures had no Retry
+- Quiz Me showed "Generate Practice Questions" for a guide that existed but had no questions
+- Warning text in system orange was about 2.2:1 against light backgrounds
+
+Verified (direct tests with RunCodeSnippet):
+- NoteListQuery: newest/oldest/title sort, body search, multi-word search, accent-insensitive search, every source filter, no-match case, count text
+- AppNavigationModel: no duplicates on double tap or reopen, tab switch keeps stacks, deleted notes popped, beginCapture keeps other stacks
+- NotesViewModel.update: unchanged update writes nothing, edit is saved and keeps import info, editing a deleted note is a no-op
+- StoredNote round trip in an in-memory SwiftData container (never the real store): edited title saved, Wikipedia source and URL preserved
+- StudySource marks a guide outdated after an edit or deletion
+- Import: unsupported file shows no retry; failed supported file offers Try Again
+- Wikipedia: restore makes 0 requests without a cache and 0 extra requests with one (mock URLProtocol)
+- Builds succeeded with no errors or warnings for My Mac and the iPhone 17 simulator
+- Previews checked: Notes list (iPhone), Capture at AX 3 in Dark Mode
+
+Still needs manual testing: full tap-through in the running app on Mac and iPhone, relaunch persistence of an edited note, VoiceOver walkthrough, Open Settings links, macOS menu commands, Mac window resizing / full screen, real offline Wikipedia, and denied microphone/speech permissions.

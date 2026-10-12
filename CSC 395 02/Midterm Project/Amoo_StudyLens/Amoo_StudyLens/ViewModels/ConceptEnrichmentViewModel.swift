@@ -78,6 +78,16 @@ final class ConceptEnrichmentViewModel {
         }
     }
 
+    /// Shows a lookup the user already made this session for the same concept, straight from the
+    /// session cache. Never contacts Wikipedia: with no cached result the screen stays idle until
+    /// the user taps Learn More, exactly as before.
+    func restoreCachedResult() async {
+        guard phase == .idle, !wasCancelled,
+              let cached = await service.cachedResult(for: concept.name),
+              phase == .idle else { return }
+        apply(cached, fromCache: true, requestID: requestID)
+    }
+
     /// Stops an in-flight search. `userInitiated` is false when the screen simply goes away,
     /// in which case there's no one to show a "cancelled" message to.
     func cancel(userInitiated: Bool = true) {

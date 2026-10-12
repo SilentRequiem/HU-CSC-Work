@@ -9,6 +9,8 @@ struct FlashcardsView: View {
     /// Leaving goes through the Study stack's owner rather than `dismiss()`, so "Done" and
     /// "Back to Study" always pop exactly this screen and return to the intact Study guide.
     @Environment(AppNavigationModel.self) private var navigation
+    /// Reduce Motion: no spring flip, scaling, or sliding; cards change with a short cross-fade.
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var viewModel: FlashcardsViewModel
 
@@ -112,7 +114,9 @@ struct FlashcardsView: View {
             // A new identity per card means each card appears fresh on its front, rather than
             // the previous card visibly flipping back first.
             .id(card.id)
-            .transition(.opacity.combined(with: .scale(scale: 0.97)))
+            .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.97)))
+            .accessibilityAction(named: "Know It") { rateCard(.known) }
+            .accessibilityAction(named: "Review Again") { rateCard(.review) }
             .background {
                 // Return also flips the card on macOS (a second shortcut needs its own button).
                 Button("Flip Card") { flip() }
@@ -181,7 +185,7 @@ struct FlashcardsView: View {
     private var ratingButtons: some View {
         HStack(spacing: 12) {
             Button {
-                withAnimation(.easeInOut(duration: 0.25)) { viewModel.rate(.review) }
+                rateCard(.review)
             } label: {
                 Label("Review Again", systemImage: "arrow.counterclockwise")
                     .frame(maxWidth: .infinity)
@@ -189,7 +193,7 @@ struct FlashcardsView: View {
             .tint(.orange)
 
             Button {
-                withAnimation(.easeInOut(duration: 0.25)) { viewModel.rate(.known) }
+                rateCard(.known)
             } label: {
                 Label("Know It", systemImage: "checkmark")
                     .frame(maxWidth: .infinity)
@@ -294,15 +298,24 @@ struct FlashcardsView: View {
     // MARK: - Actions
 
     private func flip() {
-        withAnimation(.spring(duration: 0.5, bounce: 0.15)) {
+        // With Reduce Motion, `FlashcardView` skips the 3D turn and this brief ease just
+        // cross-fades the two sides.
+        withAnimation(reduceMotion ? .easeInOut(duration: 0.2) : .spring(duration: 0.5, bounce: 0.15)) {
             viewModel.flip()
         }
     }
 
     private func navigate(_ action: () -> Void) {
-        withAnimation(.easeInOut(duration: 0.25)) {
+        withAnimation(.easeInOut(duration: reduceMotion ? 0.15 : 0.25)) {
             action()
         }
+    }
+
+    /// Rates the current card. Also exposed as VoiceOver actions on the card, so it can be rated
+    /// without hunting for the buttons; rating is only accepted once the answer is showing.
+    private func rateCard(_ rating: FlashcardRating) {
+        guard viewModel.isFlipped else { return }
+        navigate { viewModel.rate(rating) }
     }
 }
 

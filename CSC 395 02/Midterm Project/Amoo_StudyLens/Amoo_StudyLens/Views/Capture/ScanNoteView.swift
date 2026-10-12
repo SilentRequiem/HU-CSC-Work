@@ -57,6 +57,7 @@ struct ScanNoteView: View {
                 }
             }
         }
+        .studyLensSheetFrame()
     }
 
     @ViewBuilder
@@ -91,7 +92,7 @@ struct ScanNoteView: View {
             } else if let errorMessage = viewModel.errorMessage {
                 VStack(alignment: .leading, spacing: 12) {
                     Label(errorMessage, systemImage: "exclamationmark.triangle")
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(Color.studyLensWarning)
                     if viewModel.image != nil {
                         Button("Try Again", systemImage: "arrow.clockwise") {
                             viewModel.retryRecognition()

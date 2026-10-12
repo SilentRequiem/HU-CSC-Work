@@ -19,6 +19,8 @@ final class QuizMeViewModel {
     private(set) var isEvaluating = false
     private(set) var isStartingRecording = false
     private(set) var errorMessage: String?
+    /// The speech error behind `errorMessage`, so the screen can offer Open Settings or Type Instead.
+    private(set) var speechError: SpeechRecognitionError?
     var isAnswerRevealed = false
     /// When on, each new question is read aloud automatically.
     var readsQuestionsAutomatically = true
@@ -89,7 +91,7 @@ final class QuizMeViewModel {
         answerText = ""
         result = nil
         resultInputMethod = nil
-        errorMessage = nil
+        showError(nil)
         isEvaluating = false
         isAnswerRevealed = false
     }
@@ -118,7 +120,7 @@ final class QuizMeViewModel {
         if method == .typed {
             recognizer.cancel()
         }
-        errorMessage = nil
+        showError(nil)
         inputMethod = method
     }
 
@@ -134,7 +136,7 @@ final class QuizMeViewModel {
         answerText = ""
         result = nil
         resultInputMethod = nil
-        errorMessage = nil
+        showError(nil)
         isStartingRecording = true
 
         Task {
@@ -146,13 +148,19 @@ final class QuizMeViewModel {
                     case .partial(let text), .final(let text):
                         self.answerText = text
                     case .failed(let error):
-                        self.errorMessage = error.localizedDescription
+                        self.showError(error)
                     }
                 }
             } catch {
-                errorMessage = error.localizedDescription
+                showError(error)
             }
         }
+    }
+
+    /// Publishes an error (or clears it with nil), keeping the typed speech error when there is one.
+    private func showError(_ error: Error?) {
+        errorMessage = error?.localizedDescription
+        speechError = error as? SpeechRecognitionError
     }
 
     func stopAll() {
@@ -170,7 +178,7 @@ final class QuizMeViewModel {
         let answer = answerText
         let method = inputMethod
         isEvaluating = true
-        errorMessage = nil
+        showError(nil)
         result = nil
 
         evaluationTask = Task {

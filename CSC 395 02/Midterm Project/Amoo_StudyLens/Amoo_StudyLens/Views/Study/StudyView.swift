@@ -35,11 +35,20 @@ struct StudyView: View {
     @ViewBuilder
     private var content: some View {
         if notesViewModel.notes.isEmpty && studyViewModel.guide == nil {
-            ContentUnavailableView(
-                "No Study Material Yet",
-                systemImage: "note.text.badge.plus",
-                description: Text("Add notes from the Capture tab, then come back here to generate a study guide.")
-            )
+            ContentUnavailableView {
+                Label("No Study Material Yet", systemImage: "note.text.badge.plus")
+            } description: {
+                Text("Add notes from the Capture tab, then come back here to generate a study guide.")
+            } actions: {
+                Button("Capture a Note", systemImage: "camera.viewfinder") {
+                    navigation.show(.capture)
+                }
+                .buttonStyle(.borderedProminent)
+                Button("Import File…", systemImage: "square.and.arrow.down.on.square") {
+                    navigation.beginCapture(.importFile)
+                }
+                .buttonStyle(.bordered)
+            }
         } else {
             // One stable layout. Model availability only affects the Generate button inside
             // `StudySourceCard`; an existing guide is never hidden because the model is busy.
@@ -48,10 +57,15 @@ struct StudyView: View {
                     StudySourceCard()
 
                     if let errorMessage = studyViewModel.errorMessage {
-                        Label(errorMessage, systemImage: "exclamationmark.triangle")
-                            .font(.subheadline)
-                            .foregroundStyle(.red)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        StatusMessageView(
+                            message: errorMessage,
+                            tint: .red,
+                            actionTitle: studyViewModel.canRetryAfterError ? "Try Again" : nil,
+                            action: {
+                                Task { await studyViewModel.generate(using: notesViewModel.notes) }
+                            }
+                        )
+                        .disabled(studyViewModel.isGenerating)
                     }
 
                     if let guide = studyViewModel.guide {
@@ -63,9 +77,21 @@ struct StudyView: View {
                         ProgressView("Generating your study guide on device…")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 24)
+                    } else if studyViewModel.errorMessage == nil {
+                        // Notes exist but nothing has been generated yet.
+                        Label("Choose a study source above, then tap Generate. Your summary, key concepts, practice questions, flashcards, and Brain Map will appear here.",
+                              systemImage: "sparkles")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 4)
                     }
                 }
                 .padding()
+                // Keeps cards readable in a wide Mac window or full screen; padding is kept at
+                // every width so content never touches the window edge.
+                .readableContentWidth(820)
             }
         }
     }

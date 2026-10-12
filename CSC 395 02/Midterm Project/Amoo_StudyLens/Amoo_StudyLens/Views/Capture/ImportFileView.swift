@@ -58,9 +58,7 @@ struct ImportFileView: View {
                 }
             }
         }
-        #if os(macOS)
-        .frame(minWidth: 520, idealWidth: 620, minHeight: 560, idealHeight: 720)
-        #endif
+        .studyLensSheetFrame()
         .onAppear {
             // Pick up a file that was dropped onto the Capture screen.
             switch navigation.takePendingImport() {
@@ -138,9 +136,14 @@ struct ImportFileView: View {
                 }
                 .padding(.vertical, 4)
             case .failed(let message):
-                Label(message, systemImage: "exclamationmark.triangle")
-                    .foregroundStyle(.orange)
-                    .fixedSize(horizontal: false, vertical: true)
+                // Retry for a supported file that failed to extract; otherwise the drop zone's
+                // Choose Different File… above is the next step.
+                StatusMessageView(
+                    message: message,
+                    actionTitle: viewModel.canRetry ? "Try Again" : nil,
+                    action: viewModel.retry
+                )
+                .padding(.vertical, 4)
             case .idle, .review:
                 EmptyView()
             }

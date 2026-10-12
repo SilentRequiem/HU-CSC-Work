@@ -69,6 +69,7 @@ struct CaptureView: View {
                             CaptureOptionCard(option: option)
                         }
                         .buttonStyle(.plain)
+                        .accessibilityHint(option.subtitle)
                     }
 
                     // A visible drop target; the whole screen also accepts drops (see below).
@@ -78,6 +79,7 @@ struct CaptureView: View {
                     .padding(.top, 4)
                 }
                 .padding()
+                .readableContentWidth(720)
             }
             .navigationTitle("Capture")
             // DRAG AND DROP: dropping anywhere on the Capture screen starts the same import pipeline

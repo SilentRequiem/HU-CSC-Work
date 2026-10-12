@@ -8,5 +8,8 @@ import SwiftUI
         WindowGroup {
             ContentView(notesViewModel: notesViewModel)
         }
+        .commands {
+            StudyLensCommands()
+        }
     }
 }

@@ -42,10 +42,14 @@ struct ContentView: View {
         // source notes is cleared. Partially affected guides are kept and shown as outdated.
         .onChange(of: notesViewModel.notes) {
             studyViewModel.reconcile(with: notesViewModel.notes)
+            // A deleted note's detail screen is closed, so the Notes stack never shows it.
+            navigation.forgetDeletedNotes(keeping: Set(notesViewModel.notes.map(\.id)))
         }
         .onChange(of: studyViewModel.guide?.id) {
             studyViewModel.reconcile(with: notesViewModel.notes)
         }
+        // Lets the app's menu commands (macOS menu bar, iPad keyboard) reach this window's navigation.
+        .focusedSceneValue(\.appNavigation, navigation)
     }
 }
 

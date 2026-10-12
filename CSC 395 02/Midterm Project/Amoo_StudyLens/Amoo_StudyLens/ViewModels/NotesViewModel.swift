@@ -48,8 +48,21 @@ final class NotesViewModel {
         sortedNotes.filter { ids.contains($0.id) }
     }
 
+    /// The saved version of a note, or nil if it has been deleted.
+    func note(withID id: UUID) -> StudyNote? {
+        notes.first { $0.id == id }
+    }
+
     func add(_ note: StudyNote) {
         notes.append(note)
+        persist()
+    }
+
+    /// Saves an edited note (matched by ID). Does nothing — and writes nothing to disk — if the
+    /// note was deleted meanwhile or nothing actually changed.
+    func update(_ note: StudyNote) {
+        guard let index = notes.firstIndex(where: { $0.id == note.id }), notes[index] != note else { return }
+        notes[index] = note
         persist()
     }
 

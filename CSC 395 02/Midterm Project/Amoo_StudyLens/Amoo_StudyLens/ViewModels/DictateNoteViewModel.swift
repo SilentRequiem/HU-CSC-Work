@@ -14,6 +14,8 @@ final class DictateNoteViewModel {
     var title = ""
 
     private(set) var errorMessage: String?
+    /// The speech error behind `errorMessage`, so the screen can offer Open Settings when it's a permission.
+    private(set) var speechError: SpeechRecognitionError?
     private(set) var isStarting = false
 
     @ObservationIgnored
@@ -48,7 +50,7 @@ final class DictateNoteViewModel {
 
     func startRecording() {
         guard !isRecording, !isStarting else { return }
-        errorMessage = nil
+        showError(nil)
         isStarting = true
         textBeforeRecording = trimmedTranscript
 
@@ -62,9 +64,15 @@ final class DictateNoteViewModel {
                     self.handle(event)
                 }
             } catch {
-                errorMessage = error.localizedDescription
+                showError(error)
             }
         }
+    }
+
+    /// Publishes an error (or clears it with nil), keeping the typed speech error when there is one.
+    private func showError(_ error: Error?) {
+        errorMessage = error?.localizedDescription
+        speechError = error as? SpeechRecognitionError
     }
 
     func stopRecording() {
@@ -81,7 +89,7 @@ final class DictateNoteViewModel {
         case .partial(let text), .final(let text):
             transcript = textBeforeRecording.isEmpty ? text : "\(textBeforeRecording) \(text)"
         case .failed(let error):
-            errorMessage = error.localizedDescription
+            showError(error)
         }
     }
 
@@ -90,7 +98,7 @@ final class DictateNoteViewModel {
         transcript = ""
         title = ""
         lastGeneratedTitle = ""
-        errorMessage = nil
+        showError(nil)
     }
 
     // MARK: - Title

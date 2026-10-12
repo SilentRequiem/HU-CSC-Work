@@ -55,7 +55,7 @@ struct StudySourceCard: View {
             HStack {
                 Text(scopedNotes.isEmpty ? "No notes selected yet." : "\(scopedNotes.count) of \(notes.count) notes selected.")
                     .font(.subheadline)
-                    .foregroundStyle(scopedNotes.isEmpty ? AnyShapeStyle(.orange) : AnyShapeStyle(.secondary))
+                    .foregroundStyle(scopedNotes.isEmpty ? AnyShapeStyle(Color.studyLensWarning) : AnyShapeStyle(.secondary))
                 Spacer()
                 Button("Choose Notes…", systemImage: "checklist") {
                     navigation.openStudy(.chooseNotes)
@@ -246,7 +246,7 @@ struct StudySourceBanner: View {
                 Label("\(outdatedReason) This material is outdated\(isCompact ? "; regenerate it in the Study tab." : ".")",
                       systemImage: "arrow.triangle.2.circlepath")
                     .font(.caption)
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(Color.studyLensWarning)
                     .fixedSize(horizontal: false, vertical: true)
 
                 if !isCompact {

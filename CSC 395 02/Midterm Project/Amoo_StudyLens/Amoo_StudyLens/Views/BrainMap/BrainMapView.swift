@@ -91,7 +91,23 @@ struct BrainMapView: View {
             ContentUnavailableView {
                 Label("No Brain Map Yet", systemImage: "brain.head.profile")
             } description: {
-                Text("Generate a study guide from the Study tab first. Its concept map will appear here automatically.")
+                Text(notesViewModel.notes.isEmpty
+                     ? "Add notes on the Capture tab, then generate a study guide on the Study tab. Its concept map will appear here automatically."
+                     : "Generate a study guide on the Study tab first. Its concept map will appear here automatically.")
+            } actions: {
+                if notesViewModel.notes.isEmpty {
+                    Button("Capture a Note", systemImage: "camera.viewfinder") {
+                        navigation.show(.capture)
+                    }
+                    .buttonStyle(.borderedProminent)
+                } else {
+                    // Only switches tabs; generating still waits for the user to tap Generate.
+                    Button("Go to Study", systemImage: "graduationcap") {
+                        navigation.show(.study)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.purple)
+                }
             }
         }
     }
@@ -109,6 +125,7 @@ private struct BrainMapScreen: View {
 
     @State private var selectedID: String?
     @Environment(AppNavigationModel.self) private var navigation
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// `initialSelection` lets previews show the map with a concept already selected.
     init(graph: BrainMapGraph, sourceSummary: String? = nil, outdatedReason: String? = nil, initialSelection: String? = nil) {
@@ -161,11 +178,12 @@ private struct BrainMapScreen: View {
                 .background(.background.secondary, in: .rect(cornerRadius: 20))
                 .shadow(color: .black.opacity(0.15), radius: 12, y: 4)
                 .padding()
-                .transition(.move(edge: .bottom).combined(with: .opacity))
+                // Reduce Motion: the panel fades in place instead of sliding up.
+                .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
             }
         }
         #endif
-        .animation(.snappy, value: selectedID)
+        .animation(reduceMotion ? .easeInOut(duration: 0.15) : .snappy, value: selectedID)
     }
 
     private var inspectorBinding: Binding<Bool> {
@@ -196,7 +214,7 @@ private struct BrainMapScreen: View {
 
     private var legend: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("\(graph.concepts.count) concepts · \(graph.edges.count) connections · Tap a concept for details")
+            Text("\(graph.concepts.count) concepts · \(graph.edges.count) connections · \(Self.selectHint)")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 
@@ -216,7 +234,7 @@ private struct BrainMapScreen: View {
             if let outdatedReason {
                 Label("\(outdatedReason) Regenerate in the Study tab.", systemImage: "arrow.triangle.2.circlepath")
                     .font(.caption)
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(Color.studyLensWarning)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -225,6 +243,12 @@ private struct BrainMapScreen: View {
         .padding(.vertical, 8)
         .background(.bar)
     }
+
+    #if os(macOS)
+    private static let selectHint = "Click a concept for details"
+    #else
+    private static let selectHint = "Tap a concept for details"
+    #endif
 
     private func legendItem(_ title: String, dashed: Bool) -> some View {
         HStack(spacing: 6) {

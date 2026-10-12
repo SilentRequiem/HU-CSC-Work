@@ -4,6 +4,7 @@ import SwiftUI
 /// Reuses `QuizMeSection` and `QuizMeViewModel`, so questions come from the same shared study
 /// guide and answers go through the same grader as in Speak Note.
 struct QuizMeScreen: View {
+    @Environment(AppNavigationModel.self) private var navigation
     @State private var viewModel = QuizMeViewModel(
         recognizer: SpeechRecognitionService(),
         synthesizer: SpeechSynthesisService()
@@ -11,8 +12,9 @@ struct QuizMeScreen: View {
 
     var body: some View {
         ScrollView {
-            QuizMeSection(viewModel: viewModel)
+            QuizMeSection(viewModel: viewModel, onBackToStudy: { navigation.popStudy() })
                 .padding()
+                .readableContentWidth(720)
         }
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Quiz Me")
